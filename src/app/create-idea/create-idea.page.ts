@@ -51,7 +51,7 @@ export class CreateIdeaPage {
     try {
       const res = await firstValueFrom(
         await this.http.post<{ idea: string }>(
-          'http://192.168.31.1:3000/api/generateIdea',
+          'https://dodo-novel-conversely.ngrok-free.app/api/generateIdea',
           { prompt: instruction }
         )
       );
@@ -72,7 +72,7 @@ export class CreateIdeaPage {
       // 1) reset memory (expect plain text, not JSON)
       await firstValueFrom(
         this.http.post(
-          'http://192.168.31.1:3000/api/reset',
+          'https://dodo-novel-conversely.ngrok-free.app/api/reset',
           {},
           { responseType: 'text' }    // ← add this
         )
@@ -81,7 +81,7 @@ export class CreateIdeaPage {
       // 2) push user’s prompt
       await firstValueFrom(
         this.http.post<{ reply: string }>(
-          'http://192.168.31.1:3000/api/chat',
+          'https://dodo-novel-conversely.ngrok-free.app/api/chat',
           { message: this.userPrompt }
         )
       );
@@ -89,7 +89,7 @@ export class CreateIdeaPage {
       // 3) push AI’s intro
       await firstValueFrom(
         this.http.post<{ reply: string }>(
-          'http://192.168.31.1:3000/api/chat',
+          'https://dodo-novel-conversely.ngrok-free.app/api/chat',
           { message: this.story }
         )
       );

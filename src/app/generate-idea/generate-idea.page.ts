@@ -68,7 +68,7 @@ export class GenerateIdeaPage implements OnInit {
     try {
       const res = await firstValueFrom(
         this.http.post<{ idea: string }>(
-          'http://192.168.31.1:3000/api/generateIdea',
+          'https://dodo-novel-conversely.ngrok-free.app/api/generateIdea',
           { prompt: instruction }
         )
       );

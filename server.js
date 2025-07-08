@@ -1,12 +1,27 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const os = require('os');
 const path = require('path');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 const app = express();
 app.use(cors());
 app.use(express.json()); // To parse JSON request bodies
+
+function getLocalExternalIPv4() {
+  const nets = os.networkInterfaces();
+  for (const name of Object.keys(nets)) {
+    if (!nets[name]) continue;
+    for (const net of nets[name]) {
+      // Skip over non-IPv4 and internal (i.e. 127.0.0.1) addresses
+      if (net.family === 'IPv4' && !net.internal) {
+        return net.address;
+      }
+    }
+  }
+  return 'localhost';
+}
 
 let history = [];
 
@@ -54,8 +69,8 @@ app.post('/api/chat', async (req, res) => {
 
     // Send full history to Gemini
     const session = model.startChat({ generationConfig, history });
-    const result  = await session.sendMessage(message);
-    const reply   = result.response.text();
+    const result = await session.sendMessage(message);
+    const reply = result.response.text();
 
     // Record model turn
     history.push({ role: 'model', parts: [{ text: reply }] });
@@ -120,15 +135,18 @@ app.post('/api/generateIdea', async (req, res) => {
     console.error("Error in /api/generateIdea:", error);
     // Provide more specific error messages if possible
     if (error.message.includes('API key') || error.status === 401) {
-        res.status(401).json({ error: 'Invalid Gemini API key.' });
+      res.status(401).json({ error: 'Invalid Gemini API key.' });
     } else {
-        res.status(500).json({ error: 'Failed to generate idea. Please try again later.' });
+      res.status(500).json({ error: 'Failed to generate idea. Please try again later.' });
     }
   }
 });
 
 // --- Start the Server ---
 const PORT = process.env.PORT || 3000; // Use environment variable for port or default to 3000
+const HOST = getLocalExternalIPv4();
 app.listen(PORT, () => {
-  console.log(`Idea Generator server running on http://localhost:${PORT}`);
+  console.log(`Idea Generator server running on:`);
+  console.log(`  • http://localhost:${PORT}`);
+  console.log(`  • http://${HOST}:${PORT}`);
 });

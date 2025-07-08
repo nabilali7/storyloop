@@ -61,7 +61,7 @@ export class GamePage implements OnInit {
     try {
       const res = await firstValueFrom(
         this.http.post<{ reply: string }>(
-          'http://192.168.31.1:3000/api/chat',
+          'https://dodo-novel-conversely.ngrok-free.app/api/chat',
           {
             message: `
             Generate EXACTLY three numbered options for the player’s next move.
@@ -105,7 +105,7 @@ export class GamePage implements OnInit {
         `Do NOT include any extra text, headers, or markdown.`;
       const res = await firstValueFrom(
         this.http.post<{ reply: string }>(
-          'http://192.168.31.1:3000/api/chat',
+          'https://dodo-novel-conversely.ngrok-free.app/api/chat',
           { message: prompt }
         )
       );
@@ -137,7 +137,7 @@ export class GamePage implements OnInit {
         `Do NOT include any extra text, headers, or markdown.`;
       const res = await firstValueFrom(
         this.http.post<{ reply: string }>(
-          'http://192.168.31.1:3000/api/chat',
+          'https://dodo-novel-conversely.ngrok-free.app/api/chat',
           { message: prompt }
         )
       );

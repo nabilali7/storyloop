@@ -25,7 +25,7 @@
       if (!prompt) { out.textContent = 'Please type a prompt.'; return; }
       out.textContent = 'Loading…';
       try {
-        const res = await fetch('http://192.168.31.1:3000/api/chat', {
+        const res = await fetch('https://dodo-novel-conversely.ngrok-free.app/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ message: prompt })

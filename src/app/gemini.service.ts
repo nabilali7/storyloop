@@ -7,7 +7,7 @@ import { environment } from '../environments/environment';
 @Injectable({ providedIn: 'root' })
 export class GeminiService {
   // no environment.apiBaseUrl needed
-  private url = 'http://192.168.31.1:3000/api/generateIdea';  // or '/api/chat' if that’s your route
+  private url = 'https://dodo-novel-conversely.ngrok-free.app/api/generateIdea';  // or '/api/chat' if that’s your route
 
   constructor(private http: HttpClient) { }
 
