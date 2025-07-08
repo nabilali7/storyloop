@@ -1,0 +1,54 @@
+<ion-content [fullscreen]="true" class="create-idea-content">
+
+  <!-- Back & Home -->
+  <ion-button class="back-button" fill="clear" (click)="goBack()">
+    <span class="material-symbols-outlined">
+      arrow_back
+    </span>
+  </ion-button>
+  <ion-button class="home-button" fill="clear" (click)="goHome()">
+    <span class="material-symbols-outlined">home</span>
+  </ion-button>
+
+  <div class="main">
+    <h1>Create idea</h1>
+
+    <div class="idea-card">
+      <!-- 1) Prompt input always visible -->
+      <ion-textarea auto-grow="true" placeholder="Type or edit your prompt…" [(ngModel)]="userPrompt"
+        class="idea-input">
+      </ion-textarea>
+
+      <!-- 2) Spinner while loading -->
+      <ion-spinner *ngIf="loading" name="crescent" class="loading-spinner"></ion-spinner>
+
+      <!-- 3) Generated story -->
+      <div *ngIf="!loading && story" class="story-box">
+        <p>{{ story }}</p>
+      </div>
+
+      <!-- 4) Controls: mic, send, like -->
+      <div class="card-controls">
+        <ion-button class="control mic" fill="clear" (click)="startSpeech()">
+          <span class="material-symbols-outlined">
+            mic
+          </span>
+        </ion-button>
+
+        <ion-button class="control send" fill="clear" [disabled]="!userPrompt.trim() || loading"
+          (click)="generateStory()">
+          <span class="material-symbols-outlined">
+            send
+          </span>
+        </ion-button>
+
+        <!-- Only show Like after we have a story -->
+        <ion-button *ngIf="!loading && story" class="control like" fill="clear" (click)="likeStory()">
+          <span class="material-symbols-outlined">
+            {{ liked ? 'favorite' : 'favorite_border' }}
+          </span>
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>

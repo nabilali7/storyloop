@@ -1,0 +1,39 @@
+<ion-content [fullscreen]="true" class="game-content">
+  <ion-button class="back-button" fill="clear" (click)="goBack()">
+    <span class="material-symbols-outlined">
+      arrow_back
+    </span>
+  </ion-button>
+
+  <div class="game-main">
+    <div class="story-box">
+      <p>{{ story }}</p>
+    </div>
+
+    <div class="options">
+      <!-- AI-generated options -->
+      <ion-button *ngFor="let opt of options" class="option-btn" (click)="choose(opt)" [disabled]="loading">
+        {{ opt }}
+      </ion-button>
+
+      <!-- Custom option button -->
+      <ion-button *ngIf="!showCustom" class="option-btn custom-btn" fill="clear" (click)="activateCustom($event)"
+        [disabled]="loading">
+        Custom…
+      </ion-button>
+
+      <!-- Expanded custom input -->
+      <div *ngIf="showCustom" class="custom-input-group" #customGroup>
+        <ion-input [(ngModel)]="customInput" placeholder="Type your choice…">
+        </ion-input>
+        <ion-button class="control send" fill="clear" [disabled]="!customInput.trim() || loading"
+          (click)="sendCustom()">
+          <ion-icon name="send-outline"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+
+    <ion-spinner *ngIf="loading" name="crescent" class="loading-spinner">
+    </ion-spinner>
+  </div>
+</ion-content>

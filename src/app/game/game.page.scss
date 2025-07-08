@@ -1,0 +1,84 @@
+.game-content {
+    --background: none;
+    background: linear-gradient(to top,
+            #001059 0%,
+            #191b2a 53%,
+            #000a2a 100%);
+    position: relative;
+}
+
+.back-button {
+    position: absolute;
+    top: calc(var(--ion-safe-area-top, 0px) + 16px);
+    left: calc(var(--ion-safe-area-left, 0px) + 16px);
+    color: #fff;
+    z-index: 10;
+}
+
+.game-main {
+    margin-top: 80px;
+    padding: 0 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.story-box {
+    width: 100%;
+    max-width: 420px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 16px;
+    min-height: 180px;
+    color: #fff;
+    white-space: pre-wrap;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+/* regular option buttons */
+.option-btn {
+    --background: #3a3d4a;
+    --color: #fff;
+    --border-radius: 8px;
+    text-transform: none;
+}
+
+/* custom button lighter style */
+.custom-btn {
+    --background: rgba(255, 255, 255, 0.1);
+    --color: #ddd;
+}
+
+/* when custom is active, wrap input & send inline */
+.custom-input-group {
+    display: flex;
+    gap: 8px;
+}
+
+/* expanded input box */
+.custom-input-group ion-input {
+    flex: 1;
+    --padding-start: 12px;
+    --padding-top: 10px;
+    --padding-bottom: 10px;
+    --background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-radius: 8px;
+}
+
+/* send icon styling matches control */
+.custom-input-group .control.send {
+    --padding: 12px;
+    color: #fff;
+}
+
+.loading-spinner {
+    margin: 24px auto;
+    color: #fff;
+}

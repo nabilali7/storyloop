@@ -1,0 +1,94 @@
+// Inherit styles for full-screen layout and gradient
+:host {
+  display: block;
+  height: 100%;
+}
+
+ion-content.generate-idea-content {
+  height: 100%;
+
+  &::part(scroll) {
+    height: 100%;
+    // Same gradient as the home page (make sure the direction is correct for your design)
+    background: linear-gradient(to top,
+        #001059 0%,
+        #191B2A 53%,
+        #000A2A 100%);
+
+    // Use flexbox to center content vertically and horizontally
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative; // For the absolute positioned home button
+    padding: 1rem; // Safe padding for content
+  }
+}
+
+.back-button,
+.home-button {
+  position: absolute;
+  top: calc(var(--ion-safe-area-top, 0px) + 16px);
+  color: #fff;
+  z-index: 10;
+}
+
+.back-button {
+  left: calc(var(--ion-safe-area-left, 0px) + 16px);
+}
+
+.home-button {
+  right: calc(var(--ion-safe-area-right, 0px) + 16px);
+}
+
+.main-content {
+  /* center content vertically under the header buttons */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 100px;
+  padding: 0 16px;
+}
+
+.main-content h1 {
+  color: #fff;
+  font-size: 1.5rem;
+  margin-bottom: 24px;
+}
+
+/* the card around spinner/text */
+.idea-box {
+  width: 100%;
+  max-width: 400px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 24px;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.idea-box p {
+  color: #fff;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+/* two side-by-side buttons */
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.action-buttons ion-button {
+  flex: 1;
+  --background: #3a3d4a;
+  --color: #fff;
+  --border-radius: 8px;
+  text-transform: none;
+}

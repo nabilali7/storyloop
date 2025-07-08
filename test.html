@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Test Idea Generator</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; max-width: 600px; margin: auto; }
+    input { width: 100%; padding: .5rem; font-size: 1rem; }
+    button { margin-top: .5rem; padding: .5rem 1rem; font-size: 1rem; }
+    pre { background: #f4f4f4; padding: 1rem; margin-top: 1rem; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+
+  <h1>🔍 Test /api/generateIdea</h1>
+  <input id="prompt" placeholder="Enter your prompt here…" />
+  <button id="go">Generate Idea</button>
+  <pre id="out"></pre>
+
+  <script>
+    document.getElementById('go').onclick = async () => {
+      const prompt = document.getElementById('prompt').value.trim();
+      const out = document.getElementById('out');
+      if (!prompt) { out.textContent = 'Please type a prompt.'; return; }
+      out.textContent = 'Loading…';
+      try {
+        const res = await fetch('http://192.168.31.1:3000/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: prompt })
+        });
+        const json = await res.json();
+        if (res.ok) {
+          out.textContent = json.reply;
+        } else {
+          out.textContent = `Error ${res.status}: ` + (json.error||JSON.stringify(json));
+        }
+      } catch(err) {
+        out.textContent = 'Network error: ' + err;
+      }
+    };
+  </script>
+
+</body>
+</html>

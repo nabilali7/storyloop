@@ -1,0 +1,22 @@
+<!-- We use ion-content directly to create a custom, fullscreen layout -->
+<ion-content [fullscreen]="true" class="new-game-content">
+
+  <!-- Floating Home Button -->
+  <ion-button class="home-button" fill="clear" (click)="goHome()">
+    <!-- Use the same Material Symbols icon for consistency -->
+    <span class="material-symbols-outlined">home</span>
+  </ion-button>
+
+  <!-- Logo -->
+  <div class="logo-container">
+    <img src="assets/storyloopwhite.png" alt="StoryLoop Logo" />
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="button-group">
+    <ion-button expand="block" (click)="generateIdea()">Generate idea</ion-button>
+    <ion-button expand="block" (click)="createIdea()">Create idea</ion-button>
+    <ion-button expand="block" (click)="generateLocationIdea()">Generate idea based on location</ion-button>
+  </div>
+
+</ion-content>

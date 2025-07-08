@@ -1,0 +1,34 @@
+<ion-content [fullscreen]="true" class="generate-idea-content">
+  <ion-button class="back-button" fill="clear" (click)="goBack()">
+    <span class="material-symbols-outlined">
+      arrow_back
+    </span>
+  </ion-button>
+  <ion-button class="home-button" fill="clear" (click)="goHome()">
+    <span class="material-symbols-outlined">home</span>
+  </ion-button>
+
+  <div class="main-content">
+    <h1>{{ loading ? 'Generating idea' : 'Generated idea' }}</h1>
+
+    <div class="idea-box">
+      <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+      <p *ngIf="!loading">{{ idea }}</p>
+    </div>
+
+    <div class="action-buttons" *ngIf="!loading">
+      <!-- regenerate icon -->
+      <ion-button class="control send" fill="clear" (click)="generateRandomIdea()">
+        <span class="material-symbols-outlined">
+          sync
+        </span>
+      </ion-button>
+      <!-- like icon -->
+      <ion-button class="control like" fill="clear" (click)="likeIdea()">
+        <span class="material-symbols-outlined">
+          favorite
+        </span>
+      </ion-button>
+    </div>
+  </div>
+</ion-content>
