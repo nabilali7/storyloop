@@ -14,8 +14,6 @@
 .generate-idea-content {
   height: 100%;
   overflow: auto;
-
-  // --- Gradient and Layout (styles moved from ::part(scroll)) ---
   background: linear-gradient(to top, #001059 0%, #191B2A 53%, #000A2A 100%);
   display: flex;
   flex-direction: column;
@@ -54,43 +52,46 @@
   right: calc(var(--ion-safe-area-right, 0px) + 16px);
 }
 
-// Unchanged styles for main layout
+
+
+h1 {
+  position: absolute;
+  top: calc(var(--ion-safe-area-top, 0px) + 24px);
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin: 0;
+  padding: 8px 0;
+}
+
 .main-content {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 400px; // Ensure content doesn't get too wide
-  padding: 0 16px;
-  // Use margin-top to push content down, but let flexbox do the main centering
-  margin-top: 60px;
-}
-
-.main-content h1 {
-  color: #fff;
-  font-size: 1.5rem;
-  margin-bottom: 24px;
-  text-align: center;
+  max-width: 450px; // Default max-width for portrait
 }
 
 .idea-box {
   width: 100%;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 24px;
-  min-height: 120px;
+  // FIX: Matching the darker, translucent style from your image
+  background: rgba(30, 32, 56, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  // FIX: A much more pronounced border-radius
+  border-radius: 24px;
+  padding: 2rem;
+  min-height: 180px;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   box-sizing: border-box;
-}
-
-.idea-box p {
-  color: #fff;
-  font-size: 1rem;
-  line-height: 1.4;
-  margin: 0;
+  color: #e0e0e0; // Softer white
+  font-size: 1.15rem; // Larger, more readable font
+  line-height: 1.6;
 }
 
 /*
@@ -113,39 +114,64 @@
   }
 }
 
-// Unchanged styles for button container
 .action-buttons {
   display: flex;
-  gap: 12px;
-  margin-top: 24px;
+  gap: 1rem;
+  margin-top: 1.5rem;
   width: 100%;
 }
 
-
-/*
- * ===============================================================
- *  FIX: STYLES FOR ACTION <button>S
- * ===============================================================
- */
+// FIX: Styling the buttons to be dark, rounded squares
 .action-buttons .control-button {
   flex: 1;
-  // --- Converted from Ionic variables ---
-  background-color: #3a3d4a;
+  background-color: #262837;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: #fff;
-  border-radius: 8px;
-
-  // --- Standard button resets and styling ---
-  border: none;
-  padding: 0.75rem 1rem;
-  font-size: 1.5rem; // Make icon a bit bigger
-  text-transform: none;
+  border-radius: 16px;
+  padding: 0.75rem;
+  font-size: 1.8rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background-color 0.2s ease-in-out;
 
-  &:active {
-    background-color: #515461; // A slightly lighter active state
+  &:hover {
+    background-color: #3a3d4a;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 600px) {
+
+  // Reposition title to be clearly above the content
+  h1 {
+    position: relative; // No longer absolute in landscape
+    transform: none;
+    left: auto;
+    top: auto;
+    margin-bottom: 1rem;
+  }
+
+  // 1. Convert main content to a row layout
+  .main-content {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    max-width: 85vw; // Use more horizontal space, but not all
+    width: auto;
+  }
+
+  // 2. Constrain the idea box width
+  .idea-box {
+    flex: 1; // Let it take up the main space
+    min-width: 400px;
+  }
+
+  // 3. Stack the action buttons vertically on the right
+  .action-buttons {
+    flex-direction: column;
+    margin-top: 0;
+    width: auto; // Let the buttons define the width
   }
 }

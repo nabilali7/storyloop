@@ -1,11 +1,4 @@
-<!-- create-idea.page.html -->
-
-<!-- 
-  FIX: Replaced <ion-content> with a standard <div>.
--->
 <div class="create-idea-content">
-
-  <!-- FIX: Replaced icon buttons with standard <button> elements -->
   <button class="back-button" (click)="goBack()">
     <span class="material-symbols-outlined">arrow_back</span>
   </button>
@@ -15,40 +8,29 @@
 
   <div class="main">
     <h1>Create idea</h1>
-
     <div class="idea-card">
-      <!-- 
-        FIX: Replaced <ion-textarea> with a standard <textarea>.
-        The auto-grow feature is removed in favor of a standard, scrollable text area.
-        The [(ngModel)] and class bindings work the same way.
-      -->
-      <textarea placeholder="Type or edit your prompt…" [(ngModel)]="userPrompt" class="idea-input"></textarea>
+      
+      <!-- FIX: New wrapper for the left column in landscape -->
+      <div class="input-story-column">
+        <textarea placeholder="Type or edit your prompt…" [(ngModel)]="userPrompt" class="idea-input"></textarea>
 
-      <!-- 
-        FIX: Replaced <ion-spinner> with a pure CSS loading spinner.
-      -->
-      <div *ngIf="loading" class="loading-spinner-wrapper">
-        <div class="loading-spinner"></div>
+        <div *ngIf="loading" class="loading-spinner-wrapper">
+          <div class="loading-spinner"></div>
+        </div>
+
+        <div *ngIf="!loading && story" class="story-box">
+          <p>{{ story }}</p>
+        </div>
       </div>
-
-      <!-- Story output (no changes needed) -->
-      <div *ngIf="!loading && story" class="story-box">
-        <p>{{ story }}</p>
-      </div>
-
-      <!-- 
-        FIX: Replaced control <ion-button>s with standard <button> elements.
-        Angular bindings like [disabled] and *ngIf work identically.
-      -->
+      
+      <!-- The controls are now a sibling, ready to become the right column -->
       <div class="card-controls">
         <button class="control-button mic" [ngClass]="{'listening': isListening}" (click)="toggleListening()">
           <span class="material-symbols-outlined">mic</span>
         </button>
-
         <button class="control-button send" [disabled]="!userPrompt.trim() || loading" (click)="generateStory()">
           <span class="material-symbols-outlined">send</span>
         </button>
-
         <button *ngIf="!loading && story" class="control-button like" (click)="likeStory()">
           <span class="material-symbols-outlined">
             {{ liked ? 'favorite' : 'favorite_border' }}

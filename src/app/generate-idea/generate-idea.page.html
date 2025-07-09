@@ -1,7 +1,4 @@
-<!-- generate-idea.page.html -->
-
 <div class="generate-idea-content">
-  <!-- ... (back and home buttons are unchanged) ... -->
   <button class="back-button" (click)="goBack()">
     <span class="material-symbols-outlined">arrow_back</span>
   </button>
@@ -9,19 +6,21 @@
     <span class="material-symbols-outlined">home</span>
   </button>
 
+  <!-- FIX: The title is now a direct child for easier layout -->
+  <h1>{{ loading ? 'Generating idea' : 'Generated idea' }}</h1>
+
+  <!-- This container will become our two-column grid in landscape -->
   <div class="main-content">
-    <h1>{{ loading ? 'Generating idea' : 'Generated idea' }}</h1>
     <div class="idea-box">
       <div *ngIf="loading" class="loading-spinner"></div>
       <p *ngIf="!loading">{{ idea }}</p>
     </div>
 
-    <div class="action-buttons" *ngIf="!loading">
+    <!-- The action buttons are now inside the grid container -->
+    <div class="action-buttons" *ngIf="!loading && idea">
       <button class="control-button" (click)="generateRandomIdea()">
         <span class="material-symbols-outlined">sync</span>
       </button>
-      
-      <!-- FIX: Updated the like button to show a filled heart when 'liked' is true -->
       <button class="control-button" (click)="likeIdea()">
         <span class="material-symbols-outlined">
           {{ liked ? 'favorite' : 'favorite_border' }}
