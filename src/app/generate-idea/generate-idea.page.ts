@@ -1,3 +1,5 @@
+// src/app/generate-idea/generate-idea.page.ts
+
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { Location } from '@angular/common';
@@ -22,9 +24,8 @@ import { firstValueFrom } from 'rxjs';
 export class GenerateIdeaPage implements OnInit {
   idea = '';
   loading = false;
-  liked = false;
+  liked = false; // Add this to track the like state for the icon
 
-  // Inject HttpClient directly—no extra service needed
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -43,18 +44,59 @@ export class GenerateIdeaPage implements OnInit {
     this.location.back();
   }
 
-  likeIdea() {
-    console.log('Liked idea:', this.idea);
-    // you can extend this to actually save “likes” later
-  }
+  /**
+   * FIX: This function is now implemented to start a new game.
+   * It resets the backend memory, seeds it with the generated idea,
+   * and navigates to the game page.
+   */
+  async likeIdea() {
+    if (!this.idea || this.loading) return;
+    
+    this.liked = true; // Provides immediate visual feedback
+    this.loading = true;
 
-  likeStory() {
-    this.liked = !this.liked;
+    try {
+      // 1) Reset the backend memory for a new game session
+      await firstValueFrom(
+        this.http.post(
+          'https://dodo-novel-conversely.ngrok-free.app/api/reset',
+          {},
+          { responseType: 'text' }
+        )
+      );
+
+      // 2) Seed the memory with the generated story idea
+      // Since there's no user prompt here, we only push the AI's intro.
+      await firstValueFrom(
+        this.http.post<{ reply: string }>(
+          'https://dodo-novel-conversely.ngrok-free.app/api/chat',
+          { message: this.idea }
+        )
+      );
+
+      // 3) Navigate to the game page, passing the story in the state
+      // The game page looks for `initialStory` in the state.
+      this.router.navigate(['/game'], {
+        state: { initialStory: this.idea }
+      });
+
+    } catch (e) {
+      console.error('Failed to seed memory and start game', e);
+      this.liked = false; // Revert like state on error
+    } finally {
+      // Don't set loading to false here, as the page is navigating away.
+      // If navigation fails, the user is stuck on a loading screen,
+      // so we should handle that case.
+      if (this.router.url.includes('/generate-idea')) {
+          this.loading = false;
+      }
+    }
   }
 
   async generateRandomIdea() {
     this.loading = true;
     this.idea = '';
+    this.liked = false; // Reset like state for new idea
 
     const instruction =
       `You are a concise text-adventure story generator. ` +
@@ -63,7 +105,6 @@ export class GenerateIdeaPage implements OnInit {
       `The same text will be then used to create 3 options later on so keep that in mind when creating the story..` +
       `So that the user can choose whether they want to continue with that idea or not.` +
       `Only output the story text and try to lead the user into the story.`;
-
 
     try {
       const res = await firstValueFrom(
@@ -75,7 +116,7 @@ export class GenerateIdeaPage implements OnInit {
       this.idea = res.idea;
     } catch (e) {
       console.error(e);
-      this.idea = 'Fehler beim Generieren – bitte prüfe deine Verbindung.';
+      this.idea = 'Error generating idea. Please try again.';
     } finally {
       this.loading = false;
     }

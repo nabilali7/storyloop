@@ -1,36 +1,49 @@
-// Inherit styles for full-screen layout and gradient
+/* generate-idea.page.scss */
+
+// This is an Angular feature and is still needed.
 :host {
   display: block;
   height: 100%;
 }
 
-ion-content.generate-idea-content {
+/*
+ * ===============================================================
+ *  FIX: STYLES FOR THE MAIN <div> CONTAINER
+ * ===============================================================
+ */
+.generate-idea-content {
   height: 100%;
+  overflow: auto;
 
-  &::part(scroll) {
-    height: 100%;
-    // Same gradient as the home page (make sure the direction is correct for your design)
-    background: linear-gradient(to top,
-        #001059 0%,
-        #191B2A 53%,
-        #000A2A 100%);
-
-    // Use flexbox to center content vertically and horizontally
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative; // For the absolute positioned home button
-    padding: 1rem; // Safe padding for content
-  }
+  // --- Gradient and Layout (styles moved from ::part(scroll)) ---
+  background: linear-gradient(to top, #001059 0%, #191B2A 53%, #000A2A 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
+/*
+ * ===============================================================
+ *  FIX: STYLES FOR FLOATING <button>S
+ * ===============================================================
+ */
 .back-button,
 .home-button {
   position: absolute;
   top: calc(var(--ion-safe-area-top, 0px) + 16px);
   color: #fff;
   z-index: 10;
+
+  // --- Visuals (replaces fill="clear") ---
+  background: transparent;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 50%;
 }
 
 .back-button {
@@ -41,25 +54,27 @@ ion-content.generate-idea-content {
   right: calc(var(--ion-safe-area-right, 0px) + 16px);
 }
 
+// Unchanged styles for main layout
 .main-content {
-  /* center content vertically under the header buttons */
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 100px;
+  width: 100%;
+  max-width: 400px; // Ensure content doesn't get too wide
   padding: 0 16px;
+  // Use margin-top to push content down, but let flexbox do the main centering
+  margin-top: 60px;
 }
 
 .main-content h1 {
   color: #fff;
   font-size: 1.5rem;
   margin-bottom: 24px;
+  text-align: center;
 }
 
-/* the card around spinner/text */
 .idea-box {
   width: 100%;
-  max-width: 400px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   padding: 24px;
@@ -68,27 +83,69 @@ ion-content.generate-idea-content {
   align-items: center;
   justify-content: center;
   text-align: center;
+  box-sizing: border-box;
 }
 
 .idea-box p {
   color: #fff;
   font-size: 1rem;
   line-height: 1.4;
+  margin: 0;
 }
 
-/* two side-by-side buttons */
+/*
+ * ===============================================================
+ *  FIX: PURE CSS REPLACEMENT FOR <ion-spinner>
+ * ===============================================================
+ */
+.loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 4px solid rgba(255, 255, 255, 0.2); // The faint track
+  border-top-color: #ffffff; // The moving part
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Unchanged styles for button container
 .action-buttons {
   display: flex;
   gap: 12px;
   margin-top: 24px;
   width: 100%;
-  max-width: 400px;
 }
 
-.action-buttons ion-button {
+
+/*
+ * ===============================================================
+ *  FIX: STYLES FOR ACTION <button>S
+ * ===============================================================
+ */
+.action-buttons .control-button {
   flex: 1;
-  --background: #3a3d4a;
-  --color: #fff;
-  --border-radius: 8px;
+  // --- Converted from Ionic variables ---
+  background-color: #3a3d4a;
+  color: #fff;
+  border-radius: 8px;
+
+  // --- Standard button resets and styling ---
+  border: none;
+  padding: 0.75rem 1rem;
+  font-size: 1.5rem; // Make icon a bit bigger
   text-transform: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease-in-out;
+
+  &:active {
+    background-color: #515461; // A slightly lighter active state
+  }
 }

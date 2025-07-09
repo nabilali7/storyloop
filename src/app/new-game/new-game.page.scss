@@ -1,54 +1,66 @@
-// Inherit styles for full-screen layout and gradient
+/* new-game.page.scss */
+
+// This is an Angular feature and is still needed.
 :host {
   display: block;
   height: 100%;
 }
 
-ion-content.new-game-content {
+/*
+ * ===============================================================
+ *  FIX: STYLES FOR THE MAIN <div> CONTAINER
+ * ===============================================================
+ */
+.new-game-content {
+  // Take up the full height of the <host> element
   height: 100%;
+  // Replicates ion-content's scroll behavior if content overflows
+  overflow: auto;
 
-  &::part(scroll) {
-    height: 100%;
-    // Same gradient as the home page (make sure the direction is correct for your design)
-    background: linear-gradient(to top,
-        #001059 0%,
-        #191B2A 53%,
-        #000A2A 100%);
-
-    // Use flexbox to center content vertically and horizontally
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative; // For the absolute positioned home button
-    padding: 1rem; // Safe padding for content
-  }
+  // --- Gradient and Layout (styles moved from ::part(scroll)) ---
+  background: linear-gradient(to top,
+      #001059 0%,
+      #191B2A 53%,
+      #000A2A 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 1rem;
+  box-sizing: border-box; // Ensures padding doesn't add to the height/width
 }
 
-// Floating Home Button (styled just like the settings button)
+
+/*
+ * ===============================================================
+ *  FIX: STYLES FOR THE STANDARD FLOATING <button>
+ * ===============================================================
+ */
 .home-button {
+  // --- Positioning ---
   position: absolute;
   top: calc(var(--ion-safe-area-top, 0px) + 24px);
   right: calc(var(--ion-safe-area-right, 0px) + 16px);
   z-index: 10;
+  
+  // --- Visuals (replaces fill="clear") ---
+  background: transparent;
+  border: none;
   color: #fff;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 50%;
 
-  --padding-start: 8px;
-  --padding-end: 8px;
-  --padding-top: 8px;
-  --padding-bottom: 8px;
-
-  // Style for the material icon inside
   .material-symbols-outlined {
     font-size: 1.8rem;
     line-height: 1;
   }
 }
 
-// Logo Styling
+// Logo Styling (no changes needed)
 .logo-container {
-  // We don't use flex: 1 here; we want it to sit above the buttons
-  margin-bottom: 4rem; // Adjust space between logo and buttons
+  margin-bottom: 4rem;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -59,30 +71,45 @@ ion-content.new-game-content {
   max-width: 250px;
 }
 
-// Container for the game buttons
+// Container for the game buttons (no changes needed)
 .button-group {
   display: flex;
   flex-direction: column;
-  gap: 1rem; // Creates space between the two buttons
+  gap: 1rem;
   width: 80%;
   max-width: 300px;
 }
 
-// Styling for "New Game" and "Load Game" buttons to match Figma
-.button-group ion-button {
-  // Custom colors to match the dark grey from the design
-  --background: #474857;
-  --background-activated: rgb(93, 96, 111)7; // Slightly lighter when pressed
-  --color: #FFFFFF;
+/*
+ * ===============================================================
+ *  FIX: STYLES FOR THE STANDARD MAIN ACTION <button>S
+ *  (This single class replaces the old .button-group ion-button rule)
+ * ===============================================================
+ */
+.game-button {
+  // Replicates ion-button expand="block"
+  width: 100%;
 
-  // Custom shape and size
-  --border-radius: 12px;
-  --padding-top: 1rem;
-  --padding-bottom: 1rem;
-  height: auto; // Let padding define the height
+  // Visual Styling (converted from Ionic variables)
+  background-color: #474857;
+  color: #FFFFFF;
+  border-radius: 12px;
+  border: none;
+  box-shadow: none;
 
-  // Font styling
+  // Sizing and Font
+  padding: 1rem 0;
+  height: auto;
   font-size: 1rem;
   font-weight: 500;
-  text-transform: none; // Prevents "New Game" from becoming "NEW GAME"
+  text-transform: none;
+  
+  // Interaction
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+
+  // Style for when the button is being pressed (replaces --background-activated)
+  &:active {
+    background-color: rgb(93, 96, 111);
+  }
 }

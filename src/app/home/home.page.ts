@@ -20,11 +20,7 @@ export class HomePage {
   // prevent the content click when tapping settings
   openSettings(event: Event) {
     event.stopPropagation();
-    // show a settings popover or navigate:
-    this.popoverCtrl.create({
-      component: SettingsPage, // import & declare your settings component
-      event: event
-    }).then(pop => pop.present());
+    this.router.navigateByUrl('/settings');
   }
 
   startPreGame() {

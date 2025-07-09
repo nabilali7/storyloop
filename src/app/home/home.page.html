@@ -1,9 +1,18 @@
-<ion-content (click)="startPreGame()" class="home-content" [fullscreen]="true">
-  <!-- Settings Button positioned inside the content -->
-  <ion-button class="settings-button" fill="clear" (click)="openSettings($event)">
-    <!-- use Google Material Icon -->
+<!-- your-page-name.page.html -->
+
+<!-- 
+  FIX: Replaced <ion-content> with a standard <div>.
+  The styling and full-screen behavior are now handled entirely by CSS.
+-->
+<div (click)="startPreGame()" class="home-content">
+  
+  <!-- 
+    FIX: Replaced <ion-button> with a standard <button>.
+    It's styled to be transparent and uses the same click event.
+  -->
+  <button class="settings-button" (click)="openSettings($event)">
     <span class="material-symbols-outlined">settings</span>
-  </ion-button>
+  </button>
 
   <div class="logo-container">
     <img src="assets/storyloopwhite.png" alt="StoryLoop Logo" />
@@ -12,5 +21,5 @@
   <div class="start-text">
     Press anywhere to start...
   </div>
-</ion-content>
 
+</div>

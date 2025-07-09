@@ -1,13 +1,40 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>settings</ion-title>
-  </ion-toolbar>
-</ion-header>
+<!-- settings.page.html -->
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">settings</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+<!-- 
+  FIX: Replaced <ion-content> with a standard <div> container.
+-->
+<div class="settings-content">
+
+  <!-- 
+    FIX: Added a header container for easy alignment of the title and button.
+  -->
+  <div class="settings-header">
+    <h1 class="page-title">Settings</h1>
+    
+    <!-- FIX: Replaced <ion-button> with a standard <button> and the correct icon -->
+    <button class="home-button" (click)="goHome()">
+      <span class="material-symbols-outlined">home</span>
+    </button>
+  </div>
+
+  <!-- Profile Card (already standard HTML, no changes needed) -->
+  <div class="profile-card">
+    <img [src]="userPhotoURL" alt="Profile Photo" class="profile-pic" />
+    <div class="profile-text">
+      <h2>{{ userName }}</h2>
+      <p>StoryLoop Account</p>
+    </div>
+  </div>
+
+  <!-- Options (already standard HTML, no changes needed) -->
+  <div class="options">
+    <button class="option-item" (click)="openSecurity()">
+      <span class="icon-circle security"></span>
+      <span class="option-label">Security</span>
+    </button>
+    <button class="option-item" (click)="openAbout()">
+      <span class="icon-circle about"></span>
+      <span class="option-label">About</span>
+    </button>
+  </div>
+</div>

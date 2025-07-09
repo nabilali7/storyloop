@@ -32,8 +32,6 @@ export class NewGamePage {
   }
 
   generateLocationIdea() {
-    // Placeholder for load game logic
-    console.log('Generating an idea based on your location...');
-    // Example: this.router.navigateByUrl('/load-menu');
+    this.router.navigateByUrl('/generate-location-idea');
   }
 }

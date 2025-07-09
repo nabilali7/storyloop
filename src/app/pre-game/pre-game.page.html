@@ -1,21 +1,32 @@
-<!-- We use ion-content directly to create a custom, fullscreen layout -->
-<ion-content [fullscreen]="true" class="pre-game-content">
+<!-- pre-game.page.html -->
 
-  <!-- Floating Home Button -->
-  <ion-button class="home-button" fill="clear" (click)="goHome()">
-    <!-- Use the same Material Symbols icon for consistency -->
+<!-- 
+  FIX: Replaced <ion-content> with a standard <div>.
+  The class handles all the styling for the full-screen layout.
+-->
+<div class="pre-game-content">
+
+  <!-- 
+    FIX: Replaced <ion-button> with a standard <button> for the floating icon.
+    The .home-button class provides the transparent, icon-only style.
+  -->
+  <button class="home-button" (click)="goHome()">
     <span class="material-symbols-outlined">home</span>
-  </ion-button>
+  </button>
 
-  <!-- Logo -->
+  <!-- Logo (no changes needed) -->
   <div class="logo-container">
     <img src="assets/storyloopwhite.png" alt="StoryLoop Logo" />
   </div>
 
   <!-- Action Buttons -->
   <div class="button-group">
-    <ion-button expand="block" (click)="newGame()">New Game</ion-button>
-    <ion-button expand="block" (click)="loadGame()">Load Game</ion-button>
+    <!-- 
+      FIX: Replaced <ion-button> with standard <button> for better reliability.
+      The .game-button class provides the custom styling.
+    -->
+    <button class="game-button" (click)="newGame()">New Game</button>
+    <button class="game-button" (click)="loadGame()">Load Game</button>
   </div>
 
-</ion-content>
+</div>

@@ -1,20 +1,28 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.page.html',
   styleUrls: ['./settings.page.scss'],
-  standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonicModule]
 })
-export class SettingsPage implements OnInit {
+export class SettingsPage {
+  userName = 'Jane Doe';
+  userPhotoURL = 'assets/path-to-profile.jpg';
 
-  constructor() { }
+  constructor(private router: Router) { }
 
-  ngOnInit() {
+  goHome() {
+    this.router.navigate(['/home']);
   }
 
+  openSecurity() {
+    this.router.navigate(['/settings/security']);
+  }
+
+  openAbout() {
+    this.router.navigate(['/settings/about']);
+  }
 }

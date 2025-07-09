@@ -1,24 +1,56 @@
+/* create-idea.page.scss */
+
+// This is an Angular feature and is still needed.
+:host {
+  display: block;
+  height: 100%;
+}
+
+/*
+ * ===============================================================
+ *  FIX: STYLES FOR THE MAIN <div> CONTAINER
+ * ===============================================================
+ */
 .create-idea-content {
-  /* full-screen gradient */
-  --background: none;
+  height: 100%;
+  overflow-y: auto; // Allow scrolling on smaller screens
+  box-sizing: border-box;
+  
+  // Replaced the --background Ionic variable with a standard background property
   background: linear-gradient(
     to top,
     #001059 0%,
     #191B2A 53%,
     #000A2A 100%
   );
+  
+  // Add some padding to match original behavior
+  padding: 1rem;
 }
 
+/*
+ * ===============================================================
+ *  FIX: STYLES FOR FLOATING <button>S
+ * ===============================================================
+ */
 .back-button,
 .home-button {
   position: absolute;
   top: calc(var(--ion-safe-area-top, 0px) + 16px);
   color: #fff;
   z-index: 10;
+  
+  // --- Visuals (replaces fill="clear") ---
+  background: transparent;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 50%;
 }
 .back-button { left: calc(var(--ion-safe-area-left, 0px) + 16px); }
 .home-button { right: calc(var(--ion-safe-area-right, 0px) + 16px); }
 
+// Unchanged styles
 .main {
   margin-top: 80px;
   padding: 0 16px;
@@ -42,27 +74,61 @@
   flex-direction: column;
 }
 
-/* Prompt input styling */
+/*
+ * ===============================================================
+ *  FIX: STYLES FOR STANDARD <textarea>
+ * ===============================================================
+ */
 .idea-input {
-  --background: rgba(255,255,255,0.1);
-  --placeholder-color: #bbb;
-  --padding-start: 12px;
-  --padding-end:   12px;
-  --padding-top:   12px;
-  --padding-bottom:12px;
+  // --- Converted from Ionic variables ---
+  background-color: rgba(255, 255, 255, 0.1);
   color: #fff;
+  padding: 12px;
   border-radius: 8px;
+  
+  // --- Standard textarea resets and styling ---
+  border: none;
+  resize: vertical; // Allow user to resize vertically if needed
   margin-bottom: 16px;
   font-size: 1rem;
+  font-family: inherit; // Use the app's default font
+  min-height: 80px; // A good starting height
+  
+  // Style for the placeholder text
+  &::placeholder {
+    color: #bbb;
+  }
+  
+  // Remove the default focus outline
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3); // Add a subtle focus ring
+  }
 }
 
-/* Spinner centering */
-.loading-spinner {
+/*
+ * ===============================================================
+ *  FIX: PURE CSS REPLACEMENT FOR <ion-spinner>
+ * ===============================================================
+ */
+.loading-spinner-wrapper {
   margin: 24px auto;
-  color: #fff;
+  display: flex;
+  justify-content: center;
+}
+.loading-spinner {
+  width: 28px;
+  height: 28px;
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
-/* Generated story area */
+// Unchanged styles
 .story-box {
   background: rgba(0,0,0,0.2);
   border-radius: 8px;
@@ -75,19 +141,35 @@
   color: #fff;
   line-height: 1.4;
 }
-
-/* Controls row */
 .card-controls {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
-/* Button hit areas */
-.control {
-  --padding: 8px;
+/*
+ * ===============================================================
+ *  FIX: STYLES FOR CONTROL <button>S
+ * ===============================================================
+ */
+.control-button {
+  background: transparent;
+  border: none;
   color: #fff;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  // Style for disabled state
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
 }
 .like {
-  /* larger tap area for the heart */
-  --padding: 10px;
+  // larger tap area for the heart
+  padding: 10px;
 }

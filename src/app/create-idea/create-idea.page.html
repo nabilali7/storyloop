@@ -1,54 +1,60 @@
-<ion-content [fullscreen]="true" class="create-idea-content">
+<!-- create-idea.page.html -->
 
-  <!-- Back & Home -->
-  <ion-button class="back-button" fill="clear" (click)="goBack()">
-    <span class="material-symbols-outlined">
-      arrow_back
-    </span>
-  </ion-button>
-  <ion-button class="home-button" fill="clear" (click)="goHome()">
+<!-- 
+  FIX: Replaced <ion-content> with a standard <div>.
+-->
+<div class="create-idea-content">
+
+  <!-- FIX: Replaced icon buttons with standard <button> elements -->
+  <button class="back-button" (click)="goBack()">
+    <span class="material-symbols-outlined">arrow_back</span>
+  </button>
+  <button class="home-button" (click)="goHome()">
     <span class="material-symbols-outlined">home</span>
-  </ion-button>
+  </button>
 
   <div class="main">
     <h1>Create idea</h1>
 
     <div class="idea-card">
-      <!-- 1) Prompt input always visible -->
-      <ion-textarea auto-grow="true" placeholder="Type or edit your prompt…" [(ngModel)]="userPrompt"
-        class="idea-input">
-      </ion-textarea>
+      <!-- 
+        FIX: Replaced <ion-textarea> with a standard <textarea>.
+        The auto-grow feature is removed in favor of a standard, scrollable text area.
+        The [(ngModel)] and class bindings work the same way.
+      -->
+      <textarea placeholder="Type or edit your prompt…" [(ngModel)]="userPrompt" class="idea-input"></textarea>
 
-      <!-- 2) Spinner while loading -->
-      <ion-spinner *ngIf="loading" name="crescent" class="loading-spinner"></ion-spinner>
+      <!-- 
+        FIX: Replaced <ion-spinner> with a pure CSS loading spinner.
+      -->
+      <div *ngIf="loading" class="loading-spinner-wrapper">
+        <div class="loading-spinner"></div>
+      </div>
 
-      <!-- 3) Generated story -->
+      <!-- Story output (no changes needed) -->
       <div *ngIf="!loading && story" class="story-box">
         <p>{{ story }}</p>
       </div>
 
-      <!-- 4) Controls: mic, send, like -->
+      <!-- 
+        FIX: Replaced control <ion-button>s with standard <button> elements.
+        Angular bindings like [disabled] and *ngIf work identically.
+      -->
       <div class="card-controls">
-        <ion-button class="control mic" fill="clear" (click)="startSpeech()">
-          <span class="material-symbols-outlined">
-            mic
-          </span>
-        </ion-button>
+        <button class="control-button mic" (click)="startSpeech()">
+          <span class="material-symbols-outlined">mic</span>
+        </button>
 
-        <ion-button class="control send" fill="clear" [disabled]="!userPrompt.trim() || loading"
-          (click)="generateStory()">
-          <span class="material-symbols-outlined">
-            send
-          </span>
-        </ion-button>
+        <button class="control-button send" [disabled]="!userPrompt.trim() || loading" (click)="generateStory()">
+          <span class="material-symbols-outlined">send</span>
+        </button>
 
-        <!-- Only show Like after we have a story -->
-        <ion-button *ngIf="!loading && story" class="control like" fill="clear" (click)="likeStory()">
+        <button *ngIf="!loading && story" class="control-button like" (click)="likeStory()">
           <span class="material-symbols-outlined">
             {{ liked ? 'favorite' : 'favorite_border' }}
           </span>
-        </ion-button>
+        </button>
       </div>
     </div>
   </div>
-</ion-content>
+</div>

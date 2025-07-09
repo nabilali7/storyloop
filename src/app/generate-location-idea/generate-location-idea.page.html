@@ -1,7 +1,6 @@
-<!-- generate-idea.page.html -->
+<!-- generate-location-idea.page.html -->
 
-<div class="generate-idea-content">
-  <!-- ... (back and home buttons are unchanged) ... -->
+<div class="generate-location-idea-content">
   <button class="back-button" (click)="goBack()">
     <span class="material-symbols-outlined">arrow_back</span>
   </button>
@@ -10,18 +9,26 @@
   </button>
 
   <div class="main-content">
-    <h1>{{ loading ? 'Generating idea' : 'Generated idea' }}</h1>
+    <!-- Updated title -->
+    <h1>{{ loading ? 'Generating...' : 'Idea by Location' }}</h1>
+
     <div class="idea-box">
+      <!-- Show the spinner while loading -->
       <div *ngIf="loading" class="loading-spinner"></div>
-      <p *ngIf="!loading">{{ idea }}</p>
+      
+      <!-- Show the idea if it exists -->
+      <p *ngIf="!loading && idea">{{ idea }}</p>
+      
+      <!-- Show the status message if there's no idea yet (e.g., "Getting location...") -->
+      <p *ngIf="!loading && !idea && statusMessage">{{ statusMessage }}</p>
     </div>
 
     <div class="action-buttons" *ngIf="!loading">
-      <button class="control-button" (click)="generateRandomIdea()">
+      <!-- Updated the click handler to call the new function -->
+      <button class="control-button" (click)="generateLocationIdea()">
         <span class="material-symbols-outlined">sync</span>
       </button>
       
-      <!-- FIX: Updated the like button to show a filled heart when 'liked' is true -->
       <button class="control-button" (click)="likeIdea()">
         <span class="material-symbols-outlined">
           {{ liked ? 'favorite' : 'favorite_border' }}

@@ -1,0 +1,136 @@
+/* settings.page.scss */
+
+// This is an Angular feature and is still needed.
+:host {
+  display: block;
+  height: 100%;
+}
+
+/*
+ * ===============================================================
+ *  FIX: STYLES FOR THE MAIN <div> CONTAINER
+ * ===============================================================
+ */
+.settings-content {
+  height: 100%;
+  overflow-y: auto;
+  box-sizing: border-box;
+
+  // FIX: Using the consistent background gradient from other pages to match theme.
+  background: linear-gradient(to top, #001059 0%, #191B2A 53%, #000A2A 100%);
+  
+  // Overall padding for the content.
+  padding: calc(var(--ion-safe-area-top, 0px) + 1rem) 1rem 1rem 1rem;
+}
+
+/*
+ * ===============================================================
+ *  FIX: HEADER STYLING TO MATCH FIGMA DESIGN
+ * ===============================================================
+ */
+.settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 16px 0; // Padding to match Figma vertical spacing
+}
+
+.page-title {
+  color: #ffffff;
+  font-size: 28px; // Slightly larger to match Figma
+  font-weight: 600;
+  margin: 0; // Remove default margin
+}
+
+.home-button {
+  background: transparent;
+  border: none;
+  color: #fff;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 50%;
+  
+  // Center the icon perfectly
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .material-symbols-outlined {
+    font-size: 28px; // Match title size
+  }
+}
+
+/*
+ * ===============================================================
+ *  STYLES FOR PROFILE & OPTIONS (MATCHING FIGMA)
+ * ===============================================================
+ */
+
+// The dark card background color from your original SCSS, which matches the Figma design.
+$card-background: #2a2a3d;
+
+.profile-card {
+  display: flex;
+  align-items: center;
+  background: $card-background;
+  border-radius: 16px; // More pronounced radius to match design
+  padding: 16px;
+  margin-bottom: 32px;
+
+  .profile-pic {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 16px;
+  }
+
+  .profile-text {
+    h2 {
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 500;
+      margin: 0;
+    }
+    p {
+      color: #cccccc;
+      font-size: 14px;
+      margin: 4px 0 0;
+    }
+  }
+}
+
+.options .option-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: $card-background;
+  border: none;
+  border-radius: 16px; // Matching profile card radius
+  margin-bottom: 16px;
+  padding: 16px;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+
+  .icon-circle {
+    width: 24px; // Slightly larger icon circle
+    height: 24px;
+    border-radius: 50%;
+    margin-right: 16px;
+
+    &.security { background: #0061ff; }
+    &.about { background: #00c0ff; }
+  }
+
+  .option-label {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  &:active {
+    background-color: #3e3e57; // A subtle active state
+  }
+}

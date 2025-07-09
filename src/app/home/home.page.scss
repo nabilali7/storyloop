@@ -1,36 +1,35 @@
+/* your-page-name.page.scss */
+
+// This selector remains the same. It's an Angular feature, not an Ionic one,
+// and it's essential for making the component fill the viewport.
 :host {
-  // This makes your <app-home> component fill its container (the router-outlet).
-  // This is Step 1 of the height chain.
   display: block;
   height: 100%;
 }
 
-ion-content.home-content {
-  // This is the critical missing piece.
-  // It tells the <ion-content> element to fill the full height of the :host.
-  // This is Step 2 of the height chain.
+/*
+ * ===============================================================
+ *  FIX: REPLACED ION-CONTENT STYLING WITH STANDARD DIV STYLING
+ * ===============================================================
+ */
+.home-content {
+  // Take up the full height of the <host> element
   height: 100%;
+  // Replicates ion-content's scroll behavior if content overflows
+  overflow: auto;
 
-  // Use the ::part(scroll) pseudo-element to style the inner container
-  &::part(scroll) {
-    // And this tells the actual scrollable area to fill the <ion-content>.
-    // This is Step 3, completing the chain.
-    height: 100%;
-
-    // --- Correct Gradient ---
-    background: linear-gradient(to top,
-        #001059 0%,
-        #191B2A 53%,
-        #000A2A 100%);
-
-    // --- Flexbox Layout ---
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
+  // --- Gradient and Layout (styles moved from ::part(scroll)) ---
+  background: linear-gradient(to top,
+      #001059 0%,
+      #191B2A 53%,
+      #000A2A 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative; // Needed for the absolutely positioned settings button
 }
+
 
 .logo-container {
   flex: 1;
@@ -54,21 +53,37 @@ ion-content.home-content {
   text-align: center;
 }
 
-// --- Corrected Button Position ---
+
+/*
+ * ===============================================================
+ *  FIX: REPLACED ION-BUTTON STYLING WITH STANDARD BUTTON STYLING
+ * ===============================================================
+ */
 .settings-button {
+  // --- Positioning ---
   position: absolute;
+  // NOTE: --ion-safe-area-* variables are globally provided by Ionic.
+  // This will still work correctly if Ionic is in your project.
+  // If not, it gracefully falls back to 0px.
   top: calc(var(--ion-safe-area-top, 0px) + 24px);
   right: calc(var(--ion-safe-area-right, 0px) + 16px);
   z-index: 10;
+  
+  // --- Visuals (replaces fill="clear" and color) ---
+  background: transparent;
+  border: none;
   color: #fff;
+  padding: 8px; // Replaces the --padding-* variables
+  cursor: pointer;
+  border-radius: 50%; // Makes the tap highlight circular and neat
+  
+  // --- Ensure icon inside is aligned ---
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 
-  --padding-start: 8px;
-  --padding-end: 8px;
-  --padding-top: 8px;
-  --padding-bottom: 8px;
-}
-
-.material-icons {
-  font-size: 1.8rem;
-  line-height: 1;
+  .material-symbols-outlined {
+    font-size: 1.8rem;
+    line-height: 1;
+  }
 }
