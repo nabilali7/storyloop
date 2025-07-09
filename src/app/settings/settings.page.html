@@ -1,40 +1,38 @@
-<!-- settings.page.html -->
-
-<!-- 
-  FIX: Replaced <ion-content> with a standard <div> container.
--->
 <div class="settings-content">
-
-  <!-- 
-    FIX: Added a header container for easy alignment of the title and button.
-  -->
   <div class="settings-header">
     <h1 class="page-title">Settings</h1>
-    
-    <!-- FIX: Replaced <ion-button> with a standard <button> and the correct icon -->
     <button class="home-button" (click)="goHome()">
       <span class="material-symbols-outlined">home</span>
     </button>
   </div>
 
-  <!-- Profile Card (already standard HTML, no changes needed) -->
+  <!-- Interactive Profile Card -->
   <div class="profile-card">
-    <img [src]="userPhotoURL" alt="Profile Photo" class="profile-pic" />
+    <!-- Clickable Profile Picture -->
+    <div class="profile-pic-wrapper" (click)="changePhoto()">
+      <img [src]="userPhotoURL" alt="Profile Photo" class="profile-pic" />
+      <div class="edit-overlay">
+        <span class="material-symbols-outlined">photo_camera</span>
+      </div>
+    </div>
+
+    <!-- Editable Profile Name -->
     <div class="profile-text">
-      <h2>{{ userName }}</h2>
+      <!-- Show the name if not editing -->
+      <h2 *ngIf="!isEditingName" (click)="startNameEdit()">
+        {{ userName }}
+        <span class="material-symbols-outlined edit-icon">edit</span>
+      </h2>
+      
+      <!-- Show an input field when editing -->
+      <div *ngIf="isEditingName" class="name-editor">
+        <input type="text" [(ngModel)]="userName" placeholder="Enter your name" (keyup.enter)="saveName()" />
+        <button class="save-button" (click)="saveName()">Save</button>
+      </div>
+
       <p>StoryLoop Account</p>
     </div>
   </div>
 
-  <!-- Options (already standard HTML, no changes needed) -->
-  <div class="options">
-    <button class="option-item" (click)="openSecurity()">
-      <span class="icon-circle security"></span>
-      <span class="option-label">Security</span>
-    </button>
-    <button class="option-item" (click)="openAbout()">
-      <span class="icon-circle about"></span>
-      <span class="option-label">About</span>
-    </button>
-  </div>
+  <!-- Removed the old options buttons -->
 </div>

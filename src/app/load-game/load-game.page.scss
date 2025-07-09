@@ -1,0 +1,83 @@
+// Base layout with gradient
+.load-game-content {
+  height: 100%;
+  overflow-y: auto;
+  background: linear-gradient(to top, #001059 0%, #191B2A 53%, #000A2A 100%);
+  padding: 1rem;
+  box-sizing: border-box;
+  color: #fff;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: calc(var(--ion-safe-area-top, 0px)) 0 1rem;
+  
+  h1 {
+    font-size: 1.8rem;
+    margin: 0 auto; // Center the title
+  }
+
+  .back-button {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.8rem;
+    position: absolute;
+    left: 1rem;
+  }
+}
+
+// List of game cards
+.games-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.game-card {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+}
+
+.card-content {
+  flex: 1;
+  .story-preview {
+    margin: 0 0 0.5rem;
+    line-height: 1.4;
+    opacity: 0.9;
+  }
+  .timestamp {
+    font-size: 0.8rem;
+    opacity: 0.6;
+  }
+}
+
+.delete-button {
+  background: transparent;
+  border: none;
+  color: #ff5555;
+  padding: 0.5rem;
+  border-radius: 50%;
+  margin-left: 1rem;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255, 85, 85, 0.2);
+  }
+}
+
+.no-games-message {
+  text-align: center;
+  margin-top: 4rem;
+  opacity: 0.7;
+}

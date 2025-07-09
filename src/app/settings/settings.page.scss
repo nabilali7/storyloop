@@ -18,7 +18,7 @@
 
   // FIX: Using the consistent background gradient from other pages to match theme.
   background: linear-gradient(to top, #001059 0%, #191B2A 53%, #000A2A 100%);
-  
+
   // Overall padding for the content.
   padding: calc(var(--ion-safe-area-top, 0px) + 1rem) 1rem 1rem 1rem;
 }
@@ -50,7 +50,7 @@
   padding: 8px;
   cursor: pointer;
   border-radius: 50%;
-  
+
   // Center the icon perfectly
   display: flex;
   align-items: center;
@@ -61,76 +61,124 @@
   }
 }
 
-/*
- * ===============================================================
- *  STYLES FOR PROFILE & OPTIONS (MATCHING FIGMA)
- * ===============================================================
- */
-
-// The dark card background color from your original SCSS, which matches the Figma design.
 $card-background: #2a2a3d;
 
 .profile-card {
   display: flex;
   align-items: center;
   background: $card-background;
-  border-radius: 16px; // More pronounced radius to match design
+  border-radius: 16px;
   padding: 16px;
   margin-bottom: 32px;
+}
+
+// Wrapper for the profile picture to position the overlay
+.profile-pic-wrapper {
+  position: relative;
+  cursor: pointer;
+  border-radius: 50%;
 
   .profile-pic {
-    width: 56px;
-    height: 56px;
+    width: 64px; // Slightly larger
+    height: 64px;
     border-radius: 50%;
     object-fit: cover;
-    margin-right: 16px;
+    display: block; // Removes extra space below image
+    transition: filter 0.2s ease;
   }
 
-  .profile-text {
-    h2 {
-      color: #ffffff;
-      font-size: 18px;
-      font-weight: 500;
-      margin: 0;
+  // Overlay that appears on hover
+  .edit-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+
+    .material-symbols-outlined {
+      color: #fff;
+      font-size: 28px;
     }
-    p {
-      color: #cccccc;
-      font-size: 14px;
-      margin: 4px 0 0;
+  }
+
+  &:hover {
+    .profile-pic {
+      filter: brightness(0.8);
+    }
+
+    .edit-overlay {
+      opacity: 1;
     }
   }
 }
 
-.options .option-item {
+.profile-text {
+  margin-left: 16px;
+  flex: 1;
+
+  h2 {
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0;
+    cursor: pointer;
+
+    .edit-icon {
+      font-size: 16px;
+      margin-left: 8px;
+      opacity: 0.6;
+      transition: opacity 0.2s ease;
+    }
+
+    &:hover .edit-icon {
+      opacity: 1;
+    }
+  }
+
+  p {
+    color: #cccccc;
+    font-size: 14px;
+    margin: 4px 0 0;
+  }
+}
+
+// Styles for the name input field and save button
+.name-editor {
   display: flex;
   align-items: center;
-  width: 100%;
-  background: $card-background;
-  border: none;
-  border-radius: 16px; // Matching profile card radius
-  margin-bottom: 16px;
-  padding: 16px;
-  text-align: left;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
+  gap: 8px;
 
-  .icon-circle {
-    width: 24px; // Slightly larger icon circle
-    height: 24px;
-    border-radius: 50%;
-    margin-right: 16px;
+  input {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    color: #fff;
+    padding: 8px 10px;
+    font-size: 18px; // Match h2 size
 
-    &.security { background: #0061ff; }
-    &.about { background: #00c0ff; }
+    &:focus {
+      outline: none;
+      border-color: #0061ff;
+    }
   }
 
-  .option-label {
-    color: #ffffff;
-    font-size: 16px;
+  .save-button {
+    background: #0061ff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+    cursor: pointer;
     font-weight: 500;
-  }
-
-  &:active {
-    background-color: #3e3e57; // A subtle active state
   }
 }

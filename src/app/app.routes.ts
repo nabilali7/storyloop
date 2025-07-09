@@ -38,4 +38,8 @@ export const routes: Routes = [
     path: 'generate-location-idea',
     loadComponent: () => import('./generate-location-idea/generate-location-idea.page').then( m => m.GenerateLocationIdeaPage)
   },
+  {
+    path: 'load-game',
+    loadComponent: () => import('./load-game/load-game.page').then( m => m.LoadGamePage)
+  },
 ];

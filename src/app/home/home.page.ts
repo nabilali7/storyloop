@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { Router }      from '@angular/router';
-import { PopoverController, IonicModule } from '@ionic/angular';
-import { SettingsPage } from '../settings/settings.page';
-
+import { Router } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -14,17 +13,23 @@ export class HomePage {
 
   constructor(
     private router: Router,
-    private popoverCtrl: PopoverController
-  ) {}
+  ) { }
 
-  // prevent the content click when tapping settings
   openSettings(event: Event) {
     event.stopPropagation();
     this.router.navigateByUrl('/settings');
   }
 
-  startPreGame() {
-    // navigate to your “Pre-game” page
+  async startPreGame() {
+    // 2. Trigger the haptic feedback
+    try {
+      // Use ImpactStyle.Light for a subtle but noticeable tap feedback
+      await Haptics.impact({ style: ImpactStyle.Light });
+    } catch (error) {
+      console.warn("Haptic feedback not available on this device/platform.");
+    }
+
+    // 3. Navigate to the next page as before
     this.router.navigateByUrl('/pre-game');
   }
 }

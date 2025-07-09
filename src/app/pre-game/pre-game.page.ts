@@ -18,18 +18,14 @@ export class PreGamePage {
   constructor(private router: Router) { }
 
   goHome() {
-    // Navigate back to the home/start screen
     this.router.navigateByUrl('/home');
   }
 
   newGame() {
-    // Placeholder for new game logic
     this.router.navigateByUrl('/new-game');
   }
 
   loadGame() {
-    // Placeholder for load game logic
-    console.log('Loading a saved game...');
-    // Example: this.router.navigateByUrl('/load-menu');
+    this.router.navigateByUrl('/load-game');
   }
 }

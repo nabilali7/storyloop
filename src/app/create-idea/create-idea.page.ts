@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import { SpeechRecognition } from '@capacitor-community/speech-recognition';
 
 @Component({
   selector: 'app-create-idea',
@@ -20,6 +21,7 @@ export class CreateIdeaPage {
   story = '';
   loading = false;
   liked = false;
+  isListening = false;
 
   constructor(
     private http: HttpClient,
