@@ -1,40 +1,25 @@
 /* game.page.scss */
 
-// This is an Angular feature and is still needed.
 :host {
   display: block;
   height: 100%;
 }
 
-/*
- * ===============================================================
- *  FIX: STYLES FOR THE MAIN <div> CONTAINER
- * ===============================================================
- */
 .game-content {
   height: 100%;
   overflow-y: auto;
   box-sizing: border-box;
-  
-  // Replaced the --background Ionic variable
   background: linear-gradient(to top, #001059 0%, #191b2a 53%, #000a2a 100%);
   position: relative;
   padding: 1rem;
 }
 
-/*
- * ===============================================================
- *  FIX: STYLES FOR FLOATING BACK <button>
- * ===============================================================
- */
-.back-button {
+.back-button,
+.home-button {
   position: absolute;
   top: calc(var(--ion-safe-area-top, 0px) + 16px);
-  left: calc(var(--ion-safe-area-left, 0px) + 16px);
   color: #fff;
   z-index: 10;
-  
-  // --- Visuals (replaces fill="clear") ---
   background: transparent;
   border: none;
   padding: 8px;
@@ -42,98 +27,131 @@
   border-radius: 50%;
 }
 
-// Unchanged styles
+.back-button {
+  left: calc(var(--ion-safe-area-left, 0px) + 16px);
+}
+
+.home-button {
+  right: calc(var(--ion-safe-area-right, 0px) + 16px);
+}
+
 .game-main {
-  margin-top: 80px;
-  padding: 0 16px;
+  margin-top: 70px;
+  padding: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 1.5rem;
 }
 
+/*
+ * ===============================================================
+ *  IMPROVED STORY BOX STYLING
+ * ===============================================================
+ */
 .story-box {
   width: 100%;
-  max-width: 420px;
-  background: rgba(255, 255, 255, 0.05);
+  max-width: 550px; // Slightly wider for better text flow
+  background: rgba(10, 20, 50, 0.4); // Darker, more thematic background
+  border: 1px solid rgba(255, 255, 255, 0.1); // Subtle border
+  backdrop-filter: blur(5px); // Frosted glass effect (if supported)
   border-radius: 16px;
-  padding: 16px;
-  min-height: 180px;
-  color: #fff;
+  padding: 1.25rem 1.5rem; // More internal padding
+  min-height: 200px;
+  color: #e0e0e0; // Softer white for less eye strain
+  max-height: 50vh;
+  overflow-y: auto;
+
+  .story-text {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    margin: 0;
+    // --- Typography Improvements ---
+    font-family: 'Arial', serif; // A classic, readable serif font
+    font-size: 1.1rem; // <-- Larger base font size
+    line-height: 1.7; // <-- Increased line spacing for readability
+  }
 }
-.story-box .story-text {
-  white-space: pre-wrap; // Preserves line breaks from the story
-  word-wrap: break-word; // Ensures long words don't overflow
-  margin: 0;
-  font-family: inherit; // Use default font
+
+.options-container {
+  width: 100%;
+  max-width: 550px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 
 .options {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-top: 24px;
+  gap: 1rem;
   width: 100%;
-  max-width: 420px;
 }
 
 /*
  * ===============================================================
- *  FIX: STYLES FOR OPTION <button>S
+ *  IMPROVED OPTION BUTTON STYLING
  * ===============================================================
  */
 .option-btn {
-  // --- Converted from Ionic variables ---
   background-color: #3a3d4a;
-  color: #fff;
-  border-radius: 8px;
-
-  // --- Standard button resets and styling ---
-  border: none;
-  padding: 0.8rem 1rem;
+  color: #ffffff;
+  border-radius: 12px; // Softer radius
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem 1.25rem; // More padding
   text-transform: none;
   cursor: pointer;
-  font-family: inherit;
-  font-size: 1rem;
   text-align: left;
-  
+  transition: background-color 0.2s ease, transform 0.2s ease;
+
+  // --- Typography Improvements ---
+  font-family: 'Helvetica Neue', sans-serif; // A clean, modern sans-serif
+  font-size: 1.05rem; // <-- Larger font size
+  font-weight: 500;
+
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+    transform: none;
+  }
+
+  &:hover:not(:disabled) {
+    background-color: #4b4e5f;
+    transform: translateY(-2px); // Subtle lift on hover
   }
 }
 
-// Modifier class for the "Custom..." button
 .custom-style-btn {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
   color: #ddd;
   text-align: center;
 }
 
-/*
- * ===============================================================
- *  FIX: STYLES FOR CUSTOM INPUT GROUP
- * ===============================================================
- */
 .custom-input-group {
   display: flex;
   gap: 8px;
   align-items: center;
 }
+
 .custom-input-field {
   flex: 1;
-  // --- Converted from Ionic variables ---
   background-color: rgba(255, 255, 255, 0.1);
   color: #fff;
   padding: 10px 12px;
   border-radius: 8px;
-  
-  // --- Standard input resets ---
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   font-size: 1rem;
   font-family: inherit;
-  
-  &::placeholder { color: #bbb; }
-  &:focus { outline: none; }
+
+  &::placeholder {
+    color: #bbb;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #0084ff;
+  }
 }
 
 // Send icon button
@@ -157,18 +175,65 @@
  * ===============================================================
  */
 .loading-spinner-wrapper {
-  margin: 24px auto;
+  // 1. Make it an overlay
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10; // Ensure it's on top of the buttons
+
+  // 2. Add a background to dim the content below and block clicks
+  background: rgba(25, 27, 42, 0.7);
+  backdrop-filter: blur(2px); // Nice "frosted glass" effect
+  border-radius: 12px; // Match the button radius for a clean look
+
+  // 3. Use flexbox to center the actual spinner within this overlay
   display: flex;
+  align-items: center;
   justify-content: center;
 }
+
 .loading-spinner {
-  width: 28px;
-  height: 28px;
+  // The spinner itself doesn't need margin anymore
+  width: 32px;
+  height: 32px;
   border: 4px solid rgba(255, 255, 255, 0.2);
   border-top-color: #ffffff;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
+
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (orientation: landscape) and (max-height: 600px) {
+  .game-main {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 60px;
+    height: calc(100% - 80px);
+  }
+
+  .story-box {
+    flex: 1 1 55%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+  }
+
+  .options-container {
+    flex: 1 1 45%;
+    max-width: 400px;
+    height: 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 }

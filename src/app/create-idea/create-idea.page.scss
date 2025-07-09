@@ -15,15 +15,13 @@
   height: 100%;
   overflow-y: auto; // Allow scrolling on smaller screens
   box-sizing: border-box;
-  
+
   // Replaced the --background Ionic variable with a standard background property
-  background: linear-gradient(
-    to top,
-    #001059 0%,
-    #191B2A 53%,
-    #000A2A 100%
-  );
-  
+  background: linear-gradient(to top,
+      #001059 0%,
+      #191B2A 53%,
+      #000A2A 100%);
+
   // Add some padding to match original behavior
   padding: 1rem;
 }
@@ -39,7 +37,7 @@
   top: calc(var(--ion-safe-area-top, 0px) + 16px);
   color: #fff;
   z-index: 10;
-  
+
   // --- Visuals (replaces fill="clear") ---
   background: transparent;
   border: none;
@@ -47,8 +45,14 @@
   cursor: pointer;
   border-radius: 50%;
 }
-.back-button { left: calc(var(--ion-safe-area-left, 0px) + 16px); }
-.home-button { right: calc(var(--ion-safe-area-right, 0px) + 16px); }
+
+.back-button {
+  left: calc(var(--ion-safe-area-left, 0px) + 16px);
+}
+
+.home-button {
+  right: calc(var(--ion-safe-area-right, 0px) + 16px);
+}
 
 // Unchanged styles
 .main {
@@ -67,7 +71,7 @@
 .idea-card {
   width: 100%;
   max-width: 420px;
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 16px;
   padding: 16px;
   display: flex;
@@ -85,7 +89,7 @@
   color: #fff;
   padding: 12px;
   border-radius: 8px;
-  
+
   // --- Standard textarea resets and styling ---
   border: none;
   resize: vertical; // Allow user to resize vertically if needed
@@ -93,12 +97,12 @@
   font-size: 1rem;
   font-family: inherit; // Use the app's default font
   min-height: 80px; // A good starting height
-  
+
   // Style for the placeholder text
   &::placeholder {
     color: #bbb;
   }
-  
+
   // Remove the default focus outline
   &:focus {
     outline: none;
@@ -116,6 +120,7 @@
   display: flex;
   justify-content: center;
 }
+
 .loading-spinner {
   width: 28px;
   height: 28px;
@@ -124,23 +129,28 @@
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
+
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 // Unchanged styles
 .story-box {
-  background: rgba(0,0,0,0.2);
+  background: rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   padding: 12px;
   margin-bottom: 16px;
   max-height: 200px;
   overflow-y: auto;
 }
+
 .story-box p {
   color: #fff;
   line-height: 1.4;
 }
+
 .card-controls {
   display: flex;
   justify-content: space-between;
@@ -162,14 +172,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  
+  transition: color 0.2s ease, transform 0.2s ease; // Add transition
+
   // Style for disabled state
   &:disabled {
     opacity: 0.4;
     cursor: not-allowed;
   }
 }
+
 .like {
   // larger tap area for the heart
   padding: 10px;
+}
+
+.mic.listening {
+  color: #00c0ff; // A bright, active color
+  transform: scale(1.15); // Make it slightly larger
 }

@@ -1,4 +1,3 @@
-// Base layout with gradient
 .load-game-content {
   height: 100%;
   overflow-y: auto;
@@ -6,46 +5,84 @@
   padding: 1rem;
   box-sizing: border-box;
   color: #fff;
+  // This is crucial for absolute positioning to work relative to the screen
+  position: relative; 
 }
 
-.header {
-  display: flex;
-  align-items: center;
-  padding: calc(var(--ion-safe-area-top, 0px)) 0 1rem;
-  
+/*
+ * ===============================================================
+ *  FIX: ADOPT THE FLOATING BUTTON PATTERN
+ * ===============================================================
+ */
+.back-button,
+.home-button {
+  position: absolute;
+  top: calc(var(--ion-safe-area-top, 0px) + 16px);
+  color: #fff;
+  z-index: 10;
+  background: transparent;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 50%;
+
+  .material-symbols-outlined {
+    font-size: 1.8rem;
+  }
+}
+
+.back-button {
+  left: calc(var(--ion-safe-area-left, 0px) + 16px);
+}
+
+.home-button {
+  right: calc(var(--ion-safe-area-right, 0px) + 16px);
+}
+
+/*
+ * ===============================================================
+ *  FIX: ADOPT THE MAIN CONTENT MARGIN PATTERN
+ * ===============================================================
+ */
+.main-content {
+  // This pushes all content down, leaving space for the absolute buttons
+  margin-top: 70px; 
+  text-align: center;
+
   h1 {
     font-size: 1.8rem;
-    margin: 0 auto; // Center the title
-  }
-
-  .back-button {
-    background: transparent;
-    border: none;
-    color: #fff;
-    font-size: 1.8rem;
-    position: absolute;
-    left: 1rem;
+    font-weight: 600;
+    margin-bottom: 24px;
   }
 }
 
-// List of game cards
+/*
+ * ===============================================================
+ *  GAMES LIST & CARDS
+ * ===============================================================
+ */
 .games-list {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: left; // Align text inside cards to the left
 }
 
 .game-card {
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 1rem;
+  background: rgba(42, 42, 61, 0.8);
+  border-radius: 16px;
+  padding: 1rem 1.25rem;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 
   &:hover {
-    background: rgba(255, 255, 255, 0.15);
+    background-color: rgba(62, 62, 83, 0.9);
+    transform: translateY(-2px);
   }
 }
 
@@ -53,31 +90,34 @@
   flex: 1;
   .story-preview {
     margin: 0 0 0.5rem;
-    line-height: 1.4;
+    line-height: 1.5;
     opacity: 0.9;
+    font-weight: 500;
   }
   .timestamp {
     font-size: 0.8rem;
-    opacity: 0.6;
+    opacity: 0.7;
   }
 }
 
 .delete-button {
   background: transparent;
   border: none;
-  color: #ff5555;
+  color: #ff6b6b;
   padding: 0.5rem;
   border-radius: 50%;
   margin-left: 1rem;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 
   &:hover {
-    background: rgba(255, 85, 85, 0.2);
+    background: rgba(255, 107, 107, 0.15);
   }
 }
 
 .no-games-message {
   text-align: center;
-  margin-top: 4rem;
+  margin-top: 5rem;
   opacity: 0.7;
+  font-size: 1.1rem;
 }

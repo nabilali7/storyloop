@@ -1,26 +1,32 @@
 <div class="load-game-content">
-  <div class="header">
-    <button class="back-button" (click)="goBack()">
-      <span class="material-symbols-outlined">arrow_back</span>
-    </button>
+  <!-- These buttons will now be absolutely positioned -->
+  <button class="back-button" (click)="goBack()">
+    <span class="material-symbols-outlined">arrow_back</span>
+  </button>
+  <button class="home-button" (click)="goHome()">
+    <span class="material-symbols-outlined">home</span>
+  </button>
+
+  <!-- FIX: Add a .main-content wrapper for consistent spacing -->
+  <div class="main-content">
     <h1>Load Game</h1>
-  </div>
-
-  <div *ngIf="savedGames.length > 0; else noGames" class="games-list">
-    <div *ngFor="let game of savedGames" class="game-card" (click)="loadGame(game)">
-      <div class="card-content">
-        <p class="story-preview">{{ getStoryPreview(game.story) }}</p>
-        <span class="timestamp">Last saved: {{ game.lastUpdated | date:'short' }}</span>
+    
+    <div *ngIf="savedGames.length > 0; else noGames" class="games-list">
+      <div *ngFor="let game of savedGames" class="game-card" (click)="loadGame(game)">
+        <div class="card-content">
+          <p class="story-preview">{{ getStoryPreview(game.story) }}</p>
+          <span class="timestamp">Last saved: {{ game.lastUpdated | date:'short' }}</span>
+        </div>
+        <button class="delete-button" (click)="deleteGame($event, game.id)">
+          <span class="material-symbols-outlined">delete</span>
+        </button>
       </div>
-      <button class="delete-button" (click)="deleteGame($event, game.id)">
-        <span class="material-symbols-outlined">delete</span>
-      </button>
     </div>
-  </div>
 
-  <ng-template #noGames>
-    <div class="no-games-message">
-      <p>No saved games found.</p>
-    </div>
-  </ng-template>
+    <ng-template #noGames>
+      <div class="no-games-message">
+        <p>No saved games found.</p>
+      </div>
+    </ng-template>
+  </div>
 </div>

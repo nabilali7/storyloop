@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
@@ -15,7 +15,7 @@ import { IonicModule } from '@ionic/angular';
 export class NewGamePage {
 
   // Inject the Router to handle navigation
-  constructor(private router: Router) { }
+  constructor(private router: Router, private location: Location) { }
 
   goHome() {
     // Navigate back to the home/start screen
@@ -33,5 +33,9 @@ export class NewGamePage {
 
   generateLocationIdea() {
     this.router.navigateByUrl('/generate-location-idea');
+  }
+
+    goBack() {
+    this.location.back();
   }
 }

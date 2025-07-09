@@ -1,30 +1,21 @@
 <!-- new-game.page.html -->
 
-<!-- 
-  FIX: Replaced <ion-content> with a standard <div>.
-  The styling is now handled entirely by the .new-game-content class.
--->
 <div class="new-game-content">
 
-  <!-- 
-    FIX: Replaced <ion-button> with a standard <button> for the floating icon.
-    The .home-button class provides the transparent, icon-only style.
-  -->
+  <!-- FIX: Add a new back button -->
+  <button class="back-button" (click)="goBack()">
+    <span class="material-symbols-outlined">arrow_back</span>
+  </button>
+
   <button class="home-button" (click)="goHome()">
     <span class="material-symbols-outlined">home</span>
   </button>
 
-  <!-- Logo (no changes needed) -->
   <div class="logo-container">
     <img src="assets/storyloopwhite.png" alt="StoryLoop Logo" />
   </div>
 
-  <!-- Action Buttons -->
   <div class="button-group">
-    <!-- 
-      FIX: Replaced <ion-button> with standard <button> for better reliability.
-      The .game-button class provides the custom styling.
-    -->
     <button class="game-button" (click)="generateIdea()">Generate idea</button>
     <button class="game-button" (click)="createIdea()">Create idea</button>
     <button class="game-button" (click)="generateLocationIdea()">Generate idea based on location</button>

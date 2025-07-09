@@ -8,43 +8,35 @@
 
 /*
  * ===============================================================
- *  FIX: STYLES FOR THE MAIN <div> CONTAINER
+ *  MAIN STYLES (PORTRAIT & DESKTOP DEFAULT)
  * ===============================================================
  */
 .new-game-content {
-  // Take up the full height of the <host> element
   height: 100%;
-  // Replicates ion-content's scroll behavior if content overflows
   overflow: auto;
-
-  // --- Gradient and Layout (styles moved from ::part(scroll)) ---
-  background: linear-gradient(to top,
-      #001059 0%,
-      #191B2A 53%,
-      #000A2A 100%);
+  background: linear-gradient(to top, #001059 0%, #191B2A 53%, #000A2A 100%);
   display: flex;
-  flex-direction: column;
+  flex-direction: column; // Default is a vertical stack
   justify-content: center;
   align-items: center;
   position: relative;
   padding: 1rem;
-  box-sizing: border-box; // Ensures padding doesn't add to the height/width
+  box-sizing: border-box;
+  transition: flex-direction 0.3s ease; // Smooth transition for rotation
 }
-
 
 /*
  * ===============================================================
- *  FIX: STYLES FOR THE STANDARD FLOATING <button>
+ *  STYLES FOR FLOATING BUTTONS
  * ===============================================================
  */
-.home-button {
-  // --- Positioning ---
+
+// FIX: Apply shared styles to BOTH the home and back buttons
+.home-button,
+.back-button {
   position: absolute;
   top: calc(var(--ion-safe-area-top, 0px) + 24px);
-  right: calc(var(--ion-safe-area-right, 0px) + 16px);
   z-index: 10;
-  
-  // --- Visuals (replaces fill="clear") ---
   background: transparent;
   border: none;
   color: #fff;
@@ -58,7 +50,17 @@
   }
 }
 
-// Logo Styling (no changes needed)
+// FIX: Position each button specifically
+.home-button {
+  right: calc(var(--ion-safe-area-right, 0px) + 16px);
+}
+
+.back-button {
+  left: calc(var(--ion-safe-area-left, 0px) + 16px);
+}
+
+// --- Logo and Button Group Styles (Unchanged) ---
+
 .logo-container {
   margin-bottom: 4rem;
   width: 100%;
@@ -71,7 +73,6 @@
   max-width: 250px;
 }
 
-// Container for the game buttons (no changes needed)
 .button-group {
   display: flex;
   flex-direction: column;
@@ -80,36 +81,51 @@
   max-width: 300px;
 }
 
-/*
- * ===============================================================
- *  FIX: STYLES FOR THE STANDARD MAIN ACTION <button>S
- *  (This single class replaces the old .button-group ion-button rule)
- * ===============================================================
- */
 .game-button {
-  // Replicates ion-button expand="block"
   width: 100%;
-
-  // Visual Styling (converted from Ionic variables)
   background-color: #474857;
   color: #FFFFFF;
   border-radius: 12px;
   border: none;
   box-shadow: none;
-
-  // Sizing and Font
   padding: 1rem 0;
   height: auto;
   font-size: 1rem;
   font-weight: 500;
   text-transform: none;
-  
-  // Interaction
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
 
-  // Style for when the button is being pressed (replaces --background-activated)
   &:active {
     background-color: rgb(93, 96, 111);
+  }
+}
+
+/*
+ * ===============================================================
+ *  LANDSCAPE LAYOUT FOR PHONES
+ * ===============================================================
+ */
+// FIX: Added the entire landscape media query block
+@media (orientation: landscape) and (max-height: 600px) {
+  
+  // 1. Change to a row layout
+  .new-game-content {
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 2rem;
+  }
+
+  // 2. Logo becomes the left column
+  .logo-container {
+    margin-bottom: 0; // Remove vertical margin
+    flex: 1;
+    justify-content: center;
+  }
+
+  // 3. Buttons become the right column
+  .button-group {
+    flex: 1;
+    max-width: 350px;
   }
 }

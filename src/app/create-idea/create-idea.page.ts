@@ -1,5 +1,5 @@
 // src/app/create-idea/create-idea.page.ts
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { SpeechRecognition } from '@capacitor-community/speech-recognition';
+import { PluginListenerHandle } from '@capacitor/core';
 
 @Component({
   selector: 'app-create-idea',
@@ -23,10 +24,13 @@ export class CreateIdeaPage {
   liked = false;
   isListening = false;
 
+  private partialResultsListener: PluginListenerHandle | null = null;
+
   constructor(
     private http: HttpClient,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private zone: NgZone
   ) { }
 
   goBack() {
@@ -37,7 +41,89 @@ export class CreateIdeaPage {
     this.router.navigateByUrl('/home');
   }
 
-  startSpeech() { }
+  async toggleListening() {
+    if (this.isListening) {
+      // If we are currently listening, stop it.
+      await this.stopListening();
+    } else {
+      // If we are not listening, start it.
+      await this.startListening();
+    }
+  }
+
+  private async startListening() {
+    const hasPermission = await this.checkAndRequestPermission();
+    if (!hasPermission) {
+      alert('Microphone permission is required to use this feature.');
+      return;
+    } this.isListening = true;
+    await this.registerPartialResultsListener();
+
+    while (this.isListening) {
+      try {
+        await SpeechRecognition.start({
+          language: 'en-US',
+          partialResults: true,
+          popup: false,
+        });
+      } catch (error) {
+        console.error('Speech recognition error in loop:', error);
+        // If an error occurs, break the loop.
+        this.isListening = false;
+        break;
+      }
+    }
+    // Once the loop is broken, ensure listeners are cleaned up.
+    await this.removePartialResultsListener();
+  }
+
+
+
+  private async stopListening() {
+    if (!this.isListening) return;
+
+    // Setting this to false is the key to breaking the 'while' loop
+    this.isListening = false;
+
+    // Manually stop the currently active recognition session.
+    await SpeechRecognition.stop();
+  }
+
+
+  private async registerPartialResultsListener() {
+    this.partialResultsListener = await SpeechRecognition.addListener('partialResults', (data: any) => {
+      this.zone.run(() => {
+        if (data.matches && data.matches.length > 0) {
+          // To make it feel like dictation, we should append rather than replace
+          // For simplicity and matching your last version, we'll keep it as replace.
+          this.userPrompt = data.matches[0];
+        }
+      });
+    });
+  }
+
+  private async removePartialResultsListener() {
+    if (this.partialResultsListener) {
+      await this.partialResultsListener.remove();
+      this.partialResultsListener = null;
+    }
+  }
+
+  private async checkAndRequestPermission(): Promise<boolean> {
+    const status = await SpeechRecognition.checkPermissions();
+    if (status.speechRecognition === 'granted') return true;
+
+    const permission = await SpeechRecognition.requestPermissions();
+    return permission.speechRecognition === 'granted';
+  }
+
+
+
+  ngOnDestroy() {
+    if (this.isListening) {
+      this.stopListening();
+    }
+  }
 
   /** Send prompt to your single-shot /api/generateIdea endpoint :contentReference[oaicite:3]{index=3} */
   async generateStory() {

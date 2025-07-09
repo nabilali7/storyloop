@@ -1,46 +1,45 @@
-/* settings.page.scss */
-
-// This is an Angular feature and is still needed.
 :host {
   display: block;
   height: 100%;
 }
 
-/*
- * ===============================================================
- *  FIX: STYLES FOR THE MAIN <div> CONTAINER
- * ===============================================================
- */
 .settings-content {
   height: 100%;
   overflow-y: auto;
   box-sizing: border-box;
-
-  // FIX: Using the consistent background gradient from other pages to match theme.
   background: linear-gradient(to top, #001059 0%, #191B2A 53%, #000A2A 100%);
 
-  // Overall padding for the content.
-  padding: calc(var(--ion-safe-area-top, 0px) + 1rem) 1rem 1rem 1rem;
+  // Apply padding respecting the safe area for both portrait and landscape
+  padding: 1rem;
+  padding-top: calc(var(--ion-safe-area-top, 0px) + 1rem);
+
+  // Use flexbox to manage the columns
+  display: flex;
+  gap: 2rem;
 }
 
-/*
- * ===============================================================
- *  FIX: HEADER STYLING TO MATCH FIGMA DESIGN
- * ===============================================================
- */
+// This new wrapper will contain our main content on the left
+.content-wrapper {
+  width: 100%; // Takes full width in portrait mode
+  max-width: 450px; // A sensible max width for content
+  margin: 0 auto; // Center the content on large screens (desktops)
+}
+
 .settings-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
-  padding: 16px 0; // Padding to match Figma vertical spacing
+  // FIX: Adjust padding to bring the title down from the very top
+  padding-top: 1rem;
 }
 
+// ... (page-title, home-button, profile-card, etc., are mostly unchanged) ...
 .page-title {
   color: #ffffff;
-  font-size: 28px; // Slightly larger to match Figma
+  font-size: 28px;
   font-weight: 600;
-  margin: 0; // Remove default margin
+  margin: 0;
 }
 
 .home-button {
@@ -50,14 +49,12 @@
   padding: 8px;
   cursor: pointer;
   border-radius: 50%;
-
-  // Center the icon perfectly
   display: flex;
   align-items: center;
   justify-content: center;
 
   .material-symbols-outlined {
-    font-size: 28px; // Match title size
+    font-size: 28px;
   }
 }
 
@@ -69,7 +66,6 @@ $card-background: #2a2a3d;
   background: $card-background;
   border-radius: 16px;
   padding: 16px;
-  margin-bottom: 32px;
 }
 
 // Wrapper for the profile picture to position the overlay
@@ -180,5 +176,38 @@ $card-background: #2a2a3d;
     padding: 8px 12px;
     cursor: pointer;
     font-weight: 500;
+  }
+
+  @media (orientation: landscape) and (max-height: 600px) {
+
+    .settings-content {
+      // Center the content vertically in landscape
+      align-items: center;
+      justify-content: center;
+    }
+
+    .content-wrapper {
+      // No need for auto margin when we are centering the whole container
+      margin: 0;
+    }
+  }
+
+  /*
+ * ===============================================================
+ *  WIDESCREEN / DESKTOP LAYOUT
+ * ===============================================================
+ */
+  @media (min-width: 992px) {
+    .settings-content {
+      // Align content to the start (left) on very wide screens
+      justify-content: flex-start;
+      padding-left: 5vw; // Add some left padding
+      padding-right: 5vw;
+    }
+
+    .content-wrapper {
+      // Remove the auto margin so it aligns left
+      margin: 0;
+    }
   }
 }

@@ -1,47 +1,38 @@
-<!-- game.page.html -->
-
-<!-- 
-  FIX: Replaced <ion-content> with a standard <div>.
--->
 <div class="game-content">
-  <!-- FIX: Replaced <ion-button> with a standard <button> -->
   <button class="back-button" (click)="goBack()">
-    <span class="material-symbols-outlined">
-      arrow_back
-    </span>
+    <span class="material-symbols-outlined">arrow_back</span>
+  </button>
+  
+  <!-- FIX: Add a home button -->
+  <button class="home-button" (click)="goHome()">
+    <span class="material-symbols-outlined">home</span>
   </button>
 
+  <!-- The existing .game-main now acts as our two-column container in landscape -->
   <div class="game-main">
     <div class="story-box">
-      <!-- The <p> tag is fine, but using a <pre> tag can be better for preserving whitespace -->
       <pre class="story-text">{{ story }}</pre>
     </div>
 
-    <div class="options">
-      <!-- FIX: Replaced <ion-button> in the loop with a standard <button> -->
-      <button *ngFor="let opt of options" class="option-btn" (click)="choose(opt)" [disabled]="loading">
-        {{ opt }}
-      </button>
-
-      <!-- FIX: Replaced custom <ion-button> with a standard <button> and a modifier class -->
-      <button *ngIf="!showCustom" class="option-btn custom-style-btn" (click)="activateCustom($event)" [disabled]="loading">
-        Custom…
-      </button>
-
-      <!-- FIX: Replaced custom input group with standard elements -->
-      <div *ngIf="showCustom" class="custom-input-group" #customGroup>
-        <!-- Replaced <ion-input> with <input> -->
-        <input type="text" [(ngModel)]="customInput" placeholder="Type your choice…" class="custom-input-field" (keyup.enter)="sendCustom()" />
-        <!-- Replaced <ion-button> and <ion-icon> with <button> and <span> -->
-        <button class="control-button send" [disabled]="!customInput.trim() || loading" (click)="sendCustom()">
-          <span class="material-symbols-outlined">send</span>
+    <div class="options-container"> <!-- Added a wrapper for easier styling -->
+      <div class="options">
+        <button *ngFor="let opt of options" class="option-btn" (click)="choose(opt)" [disabled]="loading">
+          {{ opt }}
         </button>
+        <button *ngIf="!showCustom" class="option-btn custom-style-btn" (click)="activateCustom($event)" [disabled]="loading">
+          Custom…
+        </button>
+        <div *ngIf="showCustom" class="custom-input-group" #customGroup>
+          <input type="text" [(ngModel)]="customInput" placeholder="Type your choice…" class="custom-input-field" (keyup.enter)="sendCustom()" />
+          <button class="control-button send" [disabled]="!customInput.trim() || loading" (click)="sendCustom()">
+            <span class="material-symbols-outlined">send</span>
+          </button>
+        </div>
       </div>
-    </div>
 
-    <!-- FIX: Replaced <ion-spinner> with a pure CSS spinner -->
-    <div *ngIf="loading" class="loading-spinner-wrapper">
-      <div class="loading-spinner"></div>
+      <div *ngIf="loading" class="loading-spinner-wrapper">
+        <div class="loading-spinner"></div>
+      </div>
     </div>
   </div>
 </div>

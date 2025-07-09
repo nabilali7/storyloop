@@ -1,38 +1,37 @@
 <div class="settings-content">
-  <div class="settings-header">
-    <h1 class="page-title">Settings</h1>
-    <button class="home-button" (click)="goHome()">
-      <span class="material-symbols-outlined">home</span>
-    </button>
-  </div>
-
-  <!-- Interactive Profile Card -->
-  <div class="profile-card">
-    <!-- Clickable Profile Picture -->
-    <div class="profile-pic-wrapper" (click)="changePhoto()">
-      <img [src]="userPhotoURL" alt="Profile Photo" class="profile-pic" />
-      <div class="edit-overlay">
-        <span class="material-symbols-outlined">photo_camera</span>
-      </div>
+  
+  <!-- NEW: Wrapper for the main content -->
+  <div class="content-wrapper">
+    <div class="settings-header">
+      <h1 class="page-title">Settings</h1>
+      <button class="home-button" (click)="goHome()">
+        <span class="material-symbols-outlined">home</span>
+      </button>
     </div>
 
-    <!-- Editable Profile Name -->
-    <div class="profile-text">
-      <!-- Show the name if not editing -->
-      <h2 *ngIf="!isEditingName" (click)="startNameEdit()">
-        {{ userName }}
-        <span class="material-symbols-outlined edit-icon">edit</span>
-      </h2>
-      
-      <!-- Show an input field when editing -->
-      <div *ngIf="isEditingName" class="name-editor">
-        <input type="text" [(ngModel)]="userName" placeholder="Enter your name" (keyup.enter)="saveName()" />
-        <button class="save-button" (click)="saveName()">Save</button>
+    <!-- Interactive Profile Card (moved inside the wrapper) -->
+    <div class="profile-card">
+      <div class="profile-pic-wrapper" (click)="changePhoto()">
+        <img [src]="userPhotoURL" alt="Profile Photo" class="profile-pic" />
+        <div class="edit-overlay">
+          <span class="material-symbols-outlined">photo_camera</span>
+        </div>
       </div>
-
-      <p>StoryLoop Account</p>
+      <div class="profile-text">
+        <h2 *ngIf="!isEditingName" (click)="startNameEdit()">
+          {{ userName }}
+          <span class="material-symbols-outlined edit-icon">edit</span>
+        </h2>
+        <div *ngIf="isEditingName" class="name-editor">
+          <input type="text" [(ngModel)]="userName" placeholder="Enter your name" (keyup.enter)="saveName()" />
+          <button class="save-button" (click)="saveName()">Save</button>
+        </div>
+        <p>StoryLoop Account</p>
+      </div>
     </div>
   </div>
+  
+  <!-- We can add a placeholder for the right column here if needed later -->
+  <div class="right-column-placeholder"></div>
 
-  <!-- Removed the old options buttons -->
 </div>

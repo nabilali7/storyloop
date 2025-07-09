@@ -41,7 +41,7 @@
         Angular bindings like [disabled] and *ngIf work identically.
       -->
       <div class="card-controls">
-        <button class="control-button mic" (click)="startSpeech()">
+        <button class="control-button mic" [ngClass]="{'listening': isListening}" (click)="toggleListening()">
           <span class="material-symbols-outlined">mic</span>
         </button>
 

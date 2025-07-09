@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -17,7 +17,8 @@ export class LoadGamePage implements OnInit {
 
   constructor(
     private storageService: StorageService,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) { }
 
   async ngOnInit() {
@@ -46,6 +47,10 @@ export class LoadGamePage implements OnInit {
   }
 
   goBack() {
-    this.router.navigateByUrl('/pre-game');
+    this.location.back();
+  }
+
+  goHome() {
+    this.router.navigateByUrl('/home');
   }
 }

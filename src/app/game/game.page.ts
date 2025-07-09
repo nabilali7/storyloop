@@ -70,7 +70,10 @@ export class GamePage implements OnInit {
     this.location.back();
   }
 
-    private async autoSaveGame() {
+  goHome() { this.router.navigateByUrl('/home'); }
+
+
+  private async autoSaveGame() {
     if (!this.gameId || !this.story) return;
 
     const gameData: SavedGame = {
