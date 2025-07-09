@@ -1,3 +1,4 @@
+
 # StoryLoop
 
 An Ionic/Capacitor app that generates text-adventure story previews based on your location.
@@ -57,6 +58,48 @@ npx cap run android --target=<YOUR_DEVICE_ID>
 
 ---
 
-Now your `android/` folder will be updated with the latest web build, and the app will install & launch on your Android device or emulator. Happy coding!
+## 4. Mobile Access & Ngrok Proxy
 
+> **Note:** By default, the mobile app’s frontend is hard-coded to hit
+> `https://dodo-novel-conversely.ngrok-free.app/api/...`. If your laptop isn’t running that exact host, API calls will fail on devices.
 
+To run your own tunnel:
+
+1. **Sign up** for a free account at [ngrok.com](https://ngrok.com)
+2. **Install** the ngrok CLI
+
+   ```bash
+   npm install -g ngrok
+   ```
+3. **Authenticate** your machine
+
+   ```bash
+   ngrok authtoken <YOUR_AUTH_TOKEN>
+   ```
+4. **Create** a free subdomain (only one on the free plan), e.g. `my-storyloop`:
+
+   ```bash
+   ngrok http --url=my-storyloop.ngrok-free.app 3000
+   ```
+5. **Update** your project’s API URLs:
+
+   ```diff
+   - https://dodo-novel-conversely.ngrok-free.app/api/generateIdea
+   + https://my-storyloop.ngrok-free.app/api/generateIdea
+
+   - https://dodo-novel-conversely.ngrok-free.app/api/chat
+   + https://my-storyloop.ngrok-free.app/api/chat
+   ```
+
+   > **Keep** the `/api/generateIdea` and `/api/chat` paths exactly as-is.
+6. **Start** your local server on port 3000:
+
+   ```bash
+   node server.js --port=3000
+   ```
+
+   now ngrok will forward `https://my-storyloop.ngrok-free.app` → `http://localhost:3000`.
+
+Once that’s running, any mobile device with the APK will successfully call your tunnelled API—even when your laptop isn’t on localhost.
+
+---
