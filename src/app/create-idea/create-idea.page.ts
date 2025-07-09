@@ -1,5 +1,5 @@
 // src/app/create-idea/create-idea.page.ts
-import { Component, NgZone } from '@angular/core';
+import { Component, NgZone, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
@@ -8,7 +8,9 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { SpeechRecognition } from '@capacitor-community/speech-recognition';
-import { PluginListenerHandle } from '@capacitor/core';
+import { Capacitor, PluginListenerHandle } from '@capacitor/core';
+
+declare var webkitSpeechRecognition: any;
 
 @Component({
   selector: 'app-create-idea',
@@ -17,7 +19,7 @@ import { PluginListenerHandle } from '@capacitor/core';
   templateUrl: './create-idea.page.html',
   styleUrls: ['./create-idea.page.scss'],
 })
-export class CreateIdeaPage {
+export class CreateIdeaPage implements OnDestroy {
   userPrompt = '';
   story = '';
   loading = false;
@@ -25,13 +27,18 @@ export class CreateIdeaPage {
   isListening = false;
 
   private partialResultsListener: PluginListenerHandle | null = null;
+  private webSpeechRecognition: any | null = null;
 
   constructor(
     private http: HttpClient,
     private router: Router,
     private location: Location,
     private zone: NgZone
-  ) { }
+  ) {
+    if (!Capacitor.isNativePlatform()) {
+      this.initializeWebSpeech();
+    }
+  }
 
   goBack() {
     this.location.back();
@@ -52,50 +59,60 @@ export class CreateIdeaPage {
   }
 
   private async startListening() {
-    const hasPermission = await this.checkAndRequestPermission();
-    if (!hasPermission) {
-      alert('Microphone permission is required to use this feature.');
-      return;
-    } this.isListening = true;
-    await this.registerPartialResultsListener();
-
-    while (this.isListening) {
-      try {
-        await SpeechRecognition.start({
-          language: 'en-US',
-          partialResults: true,
-          popup: false,
-        });
-      } catch (error) {
-        console.error('Speech recognition error in loop:', error);
-        // If an error occurs, break the loop.
+    this.isListening = true;
+    if (Capacitor.isNativePlatform()) {
+      // --- NATIVE LOGIC ---
+      const hasPermission = await this.checkNativePermission();
+      if (!hasPermission) {
         this.isListening = false;
-        break;
+        alert('Microphone permission is required.');
+        return;
+      }
+      await this.registerPartialResultsListener();
+      await SpeechRecognition.start({
+        language: 'en-US',
+        partialResults: true,
+        popup: false,
+      });
+    } else {
+      // --- WEB LOGIC ---
+      if (this.webSpeechRecognition) {
+        this.webSpeechRecognition.start();
+      } else {
+        this.isListening = false;
+        alert('Speech recognition is not supported on this browser.');
       }
     }
-    // Once the loop is broken, ensure listeners are cleaned up.
-    await this.removePartialResultsListener();
   }
 
 
 
   private async stopListening() {
-    if (!this.isListening) return;
-
-    // Setting this to false is the key to breaking the 'while' loop
     this.isListening = false;
-
-    // Manually stop the currently active recognition session.
-    await SpeechRecognition.stop();
+    if (Capacitor.isNativePlatform()) {
+      // --- NATIVE LOGIC ---
+      await this.removePartialResultsListener();
+      await SpeechRecognition.stop();
+    } else {
+      // --- WEB LOGIC ---
+      if (this.webSpeechRecognition) {
+        this.webSpeechRecognition.stop();
+      }
+    }
   }
 
+
+  private async checkNativePermission(): Promise<boolean> {
+    const status = await SpeechRecognition.checkPermissions();
+    if (status.speechRecognition === 'granted') return true;
+    const permission = await SpeechRecognition.requestPermissions();
+    return permission.speechRecognition === 'granted';
+  }
 
   private async registerPartialResultsListener() {
     this.partialResultsListener = await SpeechRecognition.addListener('partialResults', (data: any) => {
       this.zone.run(() => {
         if (data.matches && data.matches.length > 0) {
-          // To make it feel like dictation, we should append rather than replace
-          // For simplicity and matching your last version, we'll keep it as replace.
           this.userPrompt = data.matches[0];
         }
       });
@@ -117,7 +134,40 @@ export class CreateIdeaPage {
     return permission.speechRecognition === 'granted';
   }
 
+  private initializeWebSpeech() {
+    const SpeechRecognitionAPI = (window as any).SpeechRecognition || webkitSpeechRecognition;
+    if (SpeechRecognitionAPI) {
+      this.webSpeechRecognition = new SpeechRecognitionAPI();
+      this.webSpeechRecognition.continuous = true;
+      this.webSpeechRecognition.interimResults = true;
+      this.webSpeechRecognition.lang = 'en-US';
 
+      this.webSpeechRecognition.onresult = (event: any) => {
+        let final_transcript = '';
+        let interim_transcript = '';
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          if (event.results[i].isFinal) {
+            final_transcript += event.results[i][0].transcript;
+          } else {
+            interim_transcript += event.results[i][0].transcript;
+          }
+        }
+        // Update the prompt inside the zone to ensure UI updates
+        this.zone.run(() => {
+          this.userPrompt = final_transcript + interim_transcript;
+        });
+      };
+
+      this.webSpeechRecognition.onerror = (event: any) => {
+        console.error('Web Speech API error:', event.error);
+        this.zone.run(() => { this.isListening = false; });
+      };
+
+      this.webSpeechRecognition.onend = () => {
+        this.zone.run(() => { this.isListening = false; });
+      };
+    }
+  }
 
   ngOnDestroy() {
     if (this.isListening) {
